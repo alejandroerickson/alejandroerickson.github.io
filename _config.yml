@@ -18,7 +18,7 @@ baseurl: "/j" # the subpath of your site, e.g. /blog/
 url: "http://alejandroerickson.com"
 twitter_username: v3ec
 github_username:  alejandroerickson
-gems: [jekyll-paginate,jekyll-sitemap]
+plugins: [jekyll-paginate,jekyll-sitemap]
 paginate: 5
 external_links:
   - url: http://www.flickr.com/photos/alejandroerickson/
