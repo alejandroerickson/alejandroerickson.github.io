@@ -5,7 +5,7 @@ title: 'Decommissioning Geoburst.ca'
 date: 2022-02-17
 ---
 
-From around 2010 to 2013 I ran a small volunteer organization called Geoburst. Geoburst.ca continued to function for a long time afterward and now it's time to take it down. Find Geoburst's "About" page and a few screen shots below.
+From around 2010 to 2013 I ran a small volunteer organization called Geoburst. Geoburst.ca continued to function for a long time afterward and now it's time to take it down. Find Geoburst's "About" page below.
 
 {% include image.html
     img="images/geoburst-banner.png"
