@@ -12,7 +12,9 @@ description: > # this means to ignore newlines until "tagline:"
   I am inventor, educator, artist, and I develop Decision Analytics software for Copperleaf Technologies.
   When I am not doing research, coding, or using the 3D printer I am making espresso coffee, taking pictures,
   making geometric sculptures, building drones, or reading to my son in Spanish.
-tagline: Senior Software Developer at Copperleaf Technologies
+tagline: Sorry for the migration mess, still figuring things out.
+# Senior Software Developer at Copperleaf Technologies
+url: "https://alejandroerickson.github.io"
 twitter_username: v3ec
 github_username:  alejandroerickson
 plugins: [jekyll-paginate,jekyll-sitemap]
