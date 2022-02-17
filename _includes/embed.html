@@ -1,0 +1,18 @@
+<div class="image-wrapper" >
+  <iframe src="{{ include.src }}"
+          {% if include.width %}
+          width="{{include.width}}"
+          {% else %}
+          width="800"
+          {% endif %}
+          {% if include.height %}
+          height="{{include.height}}"
+          {% else %}
+          height="600"
+          {% endif %}
+          frameborder="0"
+          ></iframe>
+    {% if include.caption %}
+        <p class="image-caption">{{ include.caption }}</p>
+    {% endif %}
+</div>

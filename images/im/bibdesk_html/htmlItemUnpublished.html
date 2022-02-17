@@ -1,0 +1,7 @@
+<dd class="Pub">
+  <span class="Author"><$authors.name.stringByDeTeXifyingString.stringByRemovingCurlyBraces.@componentsJoinedByCommaAndAnd/></span>.&nbsp;
+  <span class="Title"><$fields.Title.stringByDeTeXifyingString.stringByRemovingCurlyBraces/></span>.&nbsp;
+  <span class="Journal"><$fields.Note.stringByDeTeXifyingString.stringByRemovingCurlyBraces.stringByAppendingCommaAndSpaceIfNotEmpty/></span>
+  <span class="Date"><$fields.Year/></span>.<br />
+  <span class="URL"><a href="<$remoteURLs.URL.absoluteString.@firstObject/>" target="_blank"><$remoteURLs.URL.absoluteString.@firstObject/></a></span>
+<dd />

@@ -1,0 +1,3642 @@
+% Long Reference Card for GNU Emacs
+
+% Editor: Alejandro Erickson
+
+% Date: October 16, 2013
+
+% Notes: I know very little about licenses, but to the best of my
+% knowledge, I am allowed to do this.  The preamble and comments below
+% are original to this document distributed with Emacs 24.  I have
+% converted the source of Aaron Hawley's reference sheet from
+% <http://www.emacswiki.org/emacs/Reference_Sheet_by_Aaron_Hawley_source>
+% and used it in this reference card.
+
+% It is possible that the elisp I wrote will help someone expand this
+% card, so I have included it here.  It is my first elisp script ever,
+% and clearly shows the limits of my abilities in elisp and is
+% probably full of ugly hacks.  Nonetheless, it can be modified and
+% run again to create new versions of the Long Reference Card.  To use
+% it, copy and paste Aaron Hawley's source from the above link into a
+% buffer called aaronref.tex.  Copy the elisp code below (after
+% removing the TeX
+% comment % symbols) into an interactive lisp buffer and execute it (C-x C-e).
+
+%%%%%%%%%%%% BEGIN ESLISP CODE
+% (progn
+%   (switch-to-buffer-other-window "aaronref.tex")
+%   (beginning-of-buffer)
+%   (replace-regexp "\\([{}%&$\\#]\\)"
+% 		  "\\\\\\1")  
+%   (beginning-of-buffer)
+%   (replace-regexp "~"
+% 		  "\\\\char`\\\\~")
+% ;;do all of the short commands with short descriptions.
+% ;;MODIFY THE LAST NUMBER IN THE REGEXP
+%   (beginning-of-buffer)
+%   (replace-regexp "^\s-*\\(.\\{0,9\\}\\)\s-*--\s-*\\(.\\{0,40\\}\\)?$"
+% 		  "\\\\key{\\2}{\\1}")
+% ;;do all of the short commands with long descriptions
+%   (beginning-of-buffer)
+%   (replace-regexp "^\s-*\\(.\\{0,9\\}\\)\s-*--\s-*\\(.*\\)?$"
+% 		  "\\2\n\n\\\\key{}{\\1}")
+%   (beginning-of-buffer)
+%   (replace-regexp "^\s-*\\(.+?\\)\s-*--\s-*\\(.*\\)?$"
+% 		  "\\\\metax{\\2}{\\1}")
+%   (beginning-of-buffer)
+%   (replace-regexp "^\s-*\\(.*\\):$"
+% 		  "{\\\\headingfont \\1}\n")
+%   (beginning-of-buffer)
+%   (replace-regexp "\\\\HEADINGFONT"
+% 		  "\\\\headingfont")
+
+%   (beginning-of-buffer)
+% ;;MODIFY THE NUMBER IN THE REGEXP
+%   (while (search-forward-regexp "\\\\metax{.\\{54,\\}" nil t)
+%     (setq x (search-backward-regexp "^"))
+%     (setq y (search-forward-regexp "$"))
+%     (setq metastring (buffer-substring x y))
+%     (print (concat "buffer-substring:" metastring))
+%     (save-match-data
+%       (and	 (string-match "\\\\metax{\\(.*\\)??}{\\(.*\\)}" metastring)
+% 		 (setq firststr (match-string 1 metastring)
+% 		       secondstr (match-string 2 metastring) )))
+%     (print (concat "firststr" firststr))
+%     (print (concat "secondstr" secondstr))
+%     (delete-region x y)
+%     (insert firststr "\n\n\\metax{}{" secondstr "}")))
+%%%%%%%%%%%% END ELISP CODE
+
+% Below is the unedited preamble that from Stephen Gildea
+
+% Copyright (C) 1987, 1993, 1996-1997, 2001-2013 Free Software
+% Foundation, Inc.
+
+% Author: Stephen Gildea <gildea@stop.mail-abuse.org>
+
+% This file is part of GNU Emacs.
+
+% GNU Emacs is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+
+% GNU Emacs is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+
+% You should have received a copy of the GNU General Public License
+% along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+
+
+% This file is intended to be processed by plain TeX (TeX82).
+%
+% The final reference card has six columns, three on each side.
+% This file can be used to produce it in any of three ways:
+% 1 column per page
+%    produces six separate pages, each of which needs to be reduced to 80%.
+%    This gives the best resolution.
+% 2 columns per page
+%    produces three already-reduced pages.
+%    You will still need to cut and paste.
+% 3 columns per page
+%    produces two pages which must be printed sideways to make a
+%    ready-to-use 8.5 x 11 inch reference card.
+%    For this you need a dvi device driver that can print sideways.
+% Which mode to use is controlled by setting \columnsperpage.
+%
+% To compile and print this document:
+% tex refcard.tex
+% dvips -t landscape refcard.dvi
+%
+% Thanks to Paul Rubin, Bob Chassell, Len Tower, and Richard Mlynarik
+% for their many good ideas.
+
+%**start of header
+\newcount\columnsperpage
+\newcount\letterpaper
+
+% This file can be printed with 1, 2, or 3 columns per page.
+% Specify how many you want here.
+\columnsperpage=3
+
+% Set letterpaper to 0 for A4 paper, 1 for letter (US) paper.  Useful
+% only when columnsperpage is 2 or 3.
+\letterpaper=1
+
+% PDF output layout.  0 for A4, 1 for letter (US), a `l' is added for
+% a landscape layout.
+\input pdflayout.sty
+\pdflayout=(1l)
+
+% Nothing else needs to be changed below this line.
+
+\input emacsver.tex
+
+\def\shortcopyrightnotice{\vskip 1ex plus 2 fill
+  \centerline{\small \copyright\ \year\ Free Software Foundation, Inc.
+  Permissions on back.}}
+
+\def\copyrightnotice{
+\vskip 1ex plus 2 fill\begingroup\small
+\centerline{Copyright \copyright\ \year\ Free Software Foundation, Inc.}
+\centerline{For GNU Emacs version \versionemacs}
+\centerline{Designed by Stephen Gildea}
+
+Permission is granted to make and distribute modified or unmodified
+copies of this card provided the copyright notice and this permission
+notice are preserved on all copies.
+
+For copies of the GNU Emacs manual, see:
+
+{\tt http://www.gnu.org/software/emacs/\#Manuals}
+\endgroup}
+
+% make \bye not \outer so that the \def\bye in the \else clause below
+% can be scanned without complaint.
+\def\bye{\par\vfill\supereject\end}
+
+\newdimen\intercolumnskip	%horizontal space between columns
+\newbox\columna			%boxes to hold columns already built
+\newbox\columnb
+
+\def\ncolumns{\the\columnsperpage}
+
+\message{[\ncolumns\space
+  column\if 1\ncolumns\else s\fi\space per page]}
+
+\def\scaledmag#1{ scaled \magstep #1}
+
+% This multi-way format was designed by Stephen Gildea October 1986.
+% Note that the 1-column format is fontfamily-independent.
+\if 1\ncolumns			%one-column format uses normal size
+  \hsize 4in
+  \vsize 10in
+  \voffset -.7in
+  \font\titlefont=\fontname\tenbf \scaledmag3
+  \font\headingfont=\fontname\tenbf \scaledmag2
+  \font\smallfont=\fontname\sevenrm
+  \font\smallsy=\fontname\sevensy
+
+  \footline{\hss\folio}
+  \def\makefootline{\baselineskip10pt\hsize6.5in\line{\the\footline}}
+\else				%2 or 3 columns uses prereduced size
+  \hsize 3.2in
+  \if 1\the\letterpaper
+     \vsize 7.95in
+  \else
+     \vsize 7.65in
+  \fi
+  \hoffset -.75in
+  \voffset -.745in
+  \font\titlefont=cmbx10 \scaledmag2
+  \font\headingfont=cmbx10 \scaledmag1
+  \font\smallfont=cmr6
+  \font\smallsy=cmsy6
+  \font\eightrm=cmr8
+  \font\eightbf=cmbx8
+  \font\eightit=cmti8
+  \font\eighttt=cmtt8
+  \font\eightmi=cmmi8
+  \font\eightsy=cmsy8
+  \textfont0=\eightrm
+  \textfont1=\eightmi
+  \textfont2=\eightsy
+  \def\rm{\eightrm}
+  \def\bf{\eightbf}
+  \def\it{\eightit}
+  \def\tt{\eighttt}
+  \if 1\the\letterpaper
+     \normalbaselineskip=.8\normalbaselineskip
+  \else
+     \normalbaselineskip=.7\normalbaselineskip
+  \fi
+  \normallineskip=.8\normallineskip
+  \normallineskiplimit=.8\normallineskiplimit
+  \normalbaselines\rm		%make definitions take effect
+
+  \if 2\ncolumns
+    \let\maxcolumn=b
+    \footline{\hss\rm\folio\hss}
+    \def\makefootline{\vskip 2in \hsize=6.86in\line{\the\footline}}
+  \else \if 3\ncolumns
+    \let\maxcolumn=c
+    \nopagenumbers
+  \else
+    \errhelp{You must set \columnsperpage equal to 1, 2, or 3.}
+    \errmessage{Illegal number of columns per page}
+  \fi\fi
+
+  \intercolumnskip=.46in
+  \def\abc{a}
+  \output={%			%see The TeXbook page 257
+      % This next line is useful when designing the layout.
+      %\immediate\write16{Column \folio\abc\space starts with \firstmark}
+      \if \maxcolumn\abc \multicolumnformat \global\def\abc{a}
+      \else\if a\abc
+	\global\setbox\columna\columnbox \global\def\abc{b}
+        %% in case we never use \columnb (two-column mode)
+        \global\setbox\columnb\hbox to -\intercolumnskip{}
+      \else
+	\global\setbox\columnb\columnbox \global\def\abc{c}\fi\fi}
+  \def\multicolumnformat{\shipout\vbox{\makeheadline
+      \hbox{\box\columna\hskip\intercolumnskip
+        \box\columnb\hskip\intercolumnskip\columnbox}
+      \makefootline}\advancepageno}
+  \def\columnbox{\leftline{\pagebody}}
+
+  \def\bye{\par\vfill\supereject
+    \if a\abc \else\null\vfill\eject\fi
+    \if a\abc \else\null\vfill\eject\fi
+    \end}
+\fi
+
+% we won't be using math mode much, so redefine some of the characters
+% we might want to talk about
+\catcode`\^=12
+\catcode`\_=12
+
+\chardef\\=`\\
+\chardef\{=`\{
+\chardef\}=`\}
+
+\hyphenation{mini-buf-fer}
+
+\parindent 0pt
+\parskip 1ex plus .5ex minus .5ex
+
+\def\small{\smallfont\textfont2=\smallsy\baselineskip=.8\baselineskip}
+
+% newcolumn - force a new column.  Use sparingly, probably only for
+% the first column of a page, which should have a title anyway.
+\outer\def\newcolumn{\vfill\eject}
+
+% title - page title.  Argument is title text.
+\outer\def\title#1{{\titlefont\centerline{#1}}\vskip 1ex plus .5ex}
+
+% section - new major section.  Argument is section name.
+\outer\def\section#1{\par\filbreak
+  \vskip 3ex plus 2ex minus 2ex {\headingfont #1}\mark{#1}%
+  \vskip 2ex plus 1ex minus 1.5ex}
+
+\newdimen\keyindent
+
+% beginindentedkeys...endindentedkeys - key definitions will be
+% indented, but running text, typically used as headings to group
+% definitions, will not.
+\def\beginindentedkeys{\keyindent=1em}
+\def\endindentedkeys{\keyindent=0em}
+\endindentedkeys
+
+% paralign - begin paragraph containing an alignment.
+% If an \halign is entered while in vertical mode, a parskip is never
+% inserted.  Using \paralign instead of \halign solves this problem.
+\def\paralign{\vskip\parskip\halign}
+
+% \<...> - surrounds a variable name in a code example
+\def\<#1>{{\it #1\/}}
+
+% kbd - argument is characters typed literally.  Like the Texinfo command.
+\def\kbd#1{{\tt#1}\null}	%\null so not an abbrev even if period follows
+
+% beginexample...endexample - surrounds literal text, such a code example.
+% typeset in a typewriter font with line breaks preserved
+\def\beginexample{\par\leavevmode\begingroup
+  \obeylines\obeyspaces\parskip0pt\tt}
+{\obeyspaces\global\let =\ }
+\def\endexample{\endgroup}
+
+% key - definition of a key.
+% \key{description of key}{key-name}
+% prints the description left-justified, and the key-name in a \kbd
+% form near the right margin.
+\def\key#1#2{\leavevmode\hbox to \hsize{\vtop
+  {\hsize=.75\hsize\rightskip=1em
+  \hskip\keyindent\relax#1}\kbd{#2}\hfil}}
+
+\newbox\metaxbox
+\setbox\metaxbox\hbox{\kbd{M-x }}
+\newdimen\metaxwidth
+\metaxwidth=\wd\metaxbox
+
+% metax - definition of a M-x command.
+% \metax{description of command}{M-x command-name}
+% Tries to justify the beginning of the command name at the same place
+% as \key starts the key name.  (The "M-x " sticks out to the left.)
+\def\metax#1#2{\leavevmode\hbox to \hsize{\hbox to .75\hsize
+  {\hskip\keyindent\relax#1\hfil}%
+  \hskip -\metaxwidth minus 1fil
+  \kbd{#2}\hfil}}
+
+% threecol - like "key" but with two key names.
+% for example, one for doing the action backward, and one for forward.
+\def\threecol#1#2#3{\hskip\keyindent\relax#1\hfil&\kbd{#2}\hfil\quad
+  &\kbd{#3}\hfil\quad\cr}
+
+%**end of header
+
+
+\title{Long Emacs Reference Card}
+% subtitle removed because it makes the document a page longer
+% \centerline{Converted to TeX from Aaron Hawley's reference sheet}
+{\headingfont open}
+
+\metax{or click a graphical icon}{emacs\& RET}
+start in terminal, not in a windowing system
+
+\metax{}{emacs -nw RET}
+\key{information about Emacs}{C-h C-a}
+\metax{show version in echo area}{M-x emacs-version}
+\metax{show time since started}{M-x emacs-uptime}
+ 
+{\headingfont exit}
+
+\key{save buffers and quit}{C-x C-c}
+\metax{force save buffers and quit}{C-u C-x C-c}
+recursive edit (see "recursive edit" below)
+
+\key{}{C-]}
+\metax{force quit}{M-x kill-emacs}
+ 
+{\headingfont cancel}
+
+\key{a command}{C-g}
+recursive edit (see "recursive edit" below)
+
+\key{}{C-M-c}
+\key{same as previous}{C-[ C-c}
+ 
+{\headingfont recursive edit}
+
+\key{exit recursive edit}{C-]}
+\key{cancel recursive edit}{C-M-c}
+\key{same as previous}{C-[ C-c}
+\metax{cancel all}{M-x top-level}
+ 
+{\headingfont customize}
+
+Emacs initialization file
+
+\metax{}{C-x C-f \char`\~/.emacs RET}
+run time of loading user init file
+
+\metax{}{M-x emacs-init-time}
+\metax{main menu}{M-x customize}
+\metax{variable}{M-x customize-variable}
+\metax{search}{M-x customize-apropos}
+\metax{mode}{M-x customize-mode}
+define key binding (see "key" below)
+
+\metax{}{M-x global-set-key}
+define key binding for current buffer
+
+\metax{}{M-x local-set-key}
+reread settings in file local variables
+
+\metax{}{M-x normal-mode}
+show clock, system load and email flag in mode line
+
+\metax{}{M-x display-time}
+\metax{turn off}{M-x display-time-mode}
+\metax{show times around the world}{M-x display-time-world}
+\metax{show system power}{M-x display-battery-mode}
+\metax{show size in mode line}{M-x size-indication-mode}
+show column number in mode line
+
+\metax{}{M-x column-number-mode}
+show end of file in fringe
+
+\metax{}{M-x toggle-indicate-empty-lines}
+add a ruler to the current buffer's window
+
+\metax{}{M-x ruler-mode}
+toggle existence of drop-down menu
+
+\metax{}{M-x menu-bar-mode}
+toggle existence of clickable tool bar
+
+\metax{}{M-x tool-bar-mode}
+\metax{toggle scroll bar}{M-x scroll-bar-mode}
+toggle scroll bar in current frame
+
+\metax{}{M-x toggle-scroll-bar}
+\metax{toggle blinking of cursor}{M-x blink-cursor-mode}
+fix delete and backspace keys
+
+\metax{}{M-x normal-erase-is-backspace-mode}
+ 
+{\headingfont menu}
+
+\key{text interaction with drop-down menu}{M-`}
+\key{same as previous}{F10}
+toggle existence of drop-down menu
+
+\metax{}{M-x menu-bar-mode}
+toggle existence of clickable tool bar
+
+\metax{}{M-x tool-bar-mode}
+ 
+{\headingfont help}
+
+\key{menu}{C-h ?}
+\key{menu}{C-h C-h}
+\key{scroll down menu}{SPC}
+\key{scroll up menu}{DEL}
+\key{close menu}{q}
+\key{tutorial}{C-h t}
+\key{Emacs info manual (see "info" below)}{C-h r}
+\key{Emacs FAQ}{C-h F}
+\metax{what is command for KEY}{C-h c <KEY>}
+\metax{describe command for KEY}{C-h k <KEY>}
+where is key binding for COMMAND
+
+\metax{}{C-h w <COMMAND> RET}
+\key{show current modes}{C-h m}
+\key{show current key bindings}{C-h b}
+list bindings starting with C-x (see "key" below)
+
+\key{}{C-x C-h}
+list bindings starting with C-c (see "key" below)
+
+\key{}{C-c C-h}
+\key{list commands matching search}{C-h a}
+list commands and functions matching search
+
+\key{}{C-u C-h a}
+\metax{describe FUNCTION}{C-h f <FUNCTION> RET}
+describe last command executed with M-x
+
+\metax{}{M-x M-p C-h f RET}
+describe and show values for VARIABLE
+
+\metax{}{C-h v <VARIABLE> RET}
+list user variable matching search
+
+\metax{}{M-x apropos-variable}
+list all variables matching search
+
+\metax{}{C-u M-x apropos-variable}
+list user variables with values matching search
+
+\metax{}{M-x apropos-value}
+list all variables with values matching search
+
+\metax{}{C-u M-x apropos-value}
+list all  with values matching search
+
+\metax{}{C-u M-x apropos-documentation}
+\key{forward to cross-reference link}{TAB}
+\key{backward cross-reference link}{S-TAB}
+\key{same as previous}{M-TAB}
+\key{same as previous}{C-M-i}
+\key{same as previous}{C-[ C-i}
+\key{follow cross-reference}{RET}
+\key{follow cross-reference}{C-c C-c}
+\key{go back}{C-c C-b}
+\key{quit}{q}
+ 
+{\headingfont info help}
+
+\key{open directory of manuals}{C-h i}
+\key{open Emacs manual}{C-h r}
+\key{find description of symbol in manual}{C-h S}
+\key{close}{q}
+\key{table of contents (menu)}{t}
+\key{back to directory}{d}
+\key{visit menu ENTRY in table of contents}{m <ENTRY>}
+\key{forward to cross-reference link}{TAB}
+\key{backward cross-reference link}{S-TAB}
+\key{same as previous}{M-TAB}
+\key{same as previous}{C-M-i}
+\key{same as previous}{C-[ C-i}
+\key{follow link}{RET}
+\key{back to last visited page}{l}
+\key{forward to last visited page}{r}
+\key{scroll down}{C-v}
+\key{scroll down}{SPC}
+\key{scroll up}{M-v}
+\key{scroll up}{DEL}
+\key{scroll up}{b}
+\key{next node}{n}
+\key{previous node}{p}
+\key{search current manual's index}{i}
+\key{go to index node}{i RET}
+\metax{search all indices}{M-x info-apropos}
+search forward for regular expression PATTERN
+
+\metax{}{s <PATTERN>}
+case-insensitive search for regular expression PATTERN
+
+\metax{}{S <PATTERN>}
+\metax{forward to SEARCH (see "search" below)}{C-s <SEARCH>}
+\metax{reverse to SEARCH}{C-r <SEARCH>}
+make a duplicate buffer in other window (see "window" below)
+
+\key{}{M-n}
+\metax{same as previous}{M-x clone-buffer}
+\key{kill current node name as copy}{c}
+\key{same as previous}{w}
+kill current node name as Lisp expression
+
+\key{}{M-0 c}
+\key{same as previous}{M-0 w}
+ 
+{\headingfont minibuffer}
+
+\key{previous input}{M-p}
+\key{recent input}{M-n}
+complete name of buffer, file, symbol (see "completion" below)
+
+\key{}{TAB}
+\key{same as previous}{C-i}
+search  previous input backward with REGEXP
+
+\metax{}{M-r <REGEXP> RET}
+search for previous input forward with REGEXP
+
+\metax{}{M-s <REGEXP> RET}
+\key{search previous input backward again}{M-r RET}
+\key{search for previous input again}{M-s RET}
+\key{show recently echoed messages}{C-h e}
+\key{exit}{C-g}
+ 
+{\headingfont completion}
+
+complete name of buffer, file, function, variable, ...
+
+\key{}{TAB}
+\key{completion, unless a file}{SPC}
+\key{insert space without completion}{C-q SPC}
+\key{list completions}{?}
+\key{go to "completions" buffer}{M-v}
+\key{next completion}{<right>}
+\key{previous completion}{<left>}
+\key{select completion}{RET}
+\metax{exit back to minibuffer}{ESC ESC ESC}
+\metax{same as previous}{C-[ C-[ C-[}
+ 
+{\headingfont mode}
+
+\key{help with current (see "help" above)}{C-h m}
+\metax{for writing}{M-x text-mode}
+\metax{a simple default}{M-x fundamental-mode}
+change back to what Emacs thought it was
+
+\metax{}{M-x normal-mode}
+customize current (see "customize" above)
+
+\metax{}{M-x customize-mode}
+add to top of file
+
+\metax{}{M-x add-file-local-variable-prop-line RET mode RET}
+ 
+{\headingfont file}
+
+\key{open}{C-x C-f}
+\key{new}{C-x C-f}
+\metax{open in parent directory}{C-x C-f .. <file> RET}
+\metax{open from root directory}{C-x C-f / <file> RET}
+open all C sources in current directory
+
+\metax{}{C-x C-f *.c RET}
+including parent directories
+
+\metax{}{M-x make-directory RET RET}
+\key{close current and open another}{C-x C-v}
+\key{save}{C-x C-s}
+\metax{save even if buffer is unchanged}{C-x C-w RET}
+same as previous (see M-\char`\~ below)
+
+\metax{}{C-u M-\char`\~ C-x C-s}
+prompt to save any buffer that has been modified
+
+\key{}{C-x s}
+save any buffer that has been modified with no questions
+
+\key{}{C-u C-x s}
+\metax{open previously saved or opened}{C-x C-f M-p RET}
+\metax{save current to PATH}{C-x C-w <PATH> RET}
+save to DIRECTORY using file or buffer name
+
+\metax{}{C-x C-w <DIRECTORY> RET}
+\metax{mark buffer as unmodified}{M-\char`\~}
+\metax{mark buffer as modified}{C-u M-\char`\~}
+\key{toggle as read only}{C-x C-q}
+\metax{list contents of archive}{C-x C-f archive.tar RET}
+\metax{open compressed Gzip}{C-x C-f file.gz RET}
+\metax{list contents of ZIP}{C-x C-f file.zip RET}
+\metax{rename current}{M-x rename-file RET <FILE> RET <NEW>}
+rename current to NAME
+
+\metax{}{M-x rename-file RET RET <NAME> RET}
+rename current to NAME
+
+\metax{}{M-x rename-file RET RET <NAME> RET}
+\metax{delete NAME}{M-x delete-file RET <NAME> RET}
+\metax{(see "read only" below)}{M-x view-file}
+open in basic mode with no conversions
+
+\metax{}{M-x find-file-literally}
+toggle between overwrite mode and insert mode
+
+\key{}{<insert>}
+\metax{same as previous}{M-x overwrite-mode}
+\metax{edit as literal bytes}{M-x binary-overwrite-mode}
+\metax{rename previously saved or opened}{C-x d M-p RET R}
+\key{insert other into current buffer}{C-x i}
+\metax{save region (see "region" below)}{M-x write-region}
+save buffer once to alternate
+
+\metax{}{C-x h M-x write-region}
+save region to other (see "region" below)
+
+\metax{}{M-x append-to-file}
+\metax{set buffer to alternate}{M-x set-visited-file-name}
+\metax{set permissions of current}{M-x set-file-modes}
+\metax{open name at point}{M-x find-file-at-point}
+\metax{restore buffer from disk}{M-x revert-buffer}
+\metax{same as previous}{C-x C-v RET}
+\metax{same as previous}{C-x C-f M-n RET}
+\metax{open backup}{C-x C-f M-n \char`\~ RET}
+\metax{save and make it the next backup}{C-u C-x C-s}
+\metax{save without making a backup}{C-0 C-x C-s}
+\metax{backup previous then save}{C-u C-u C-x C-s}
+backup previous, save, make it the next backup
+
+\metax{}{C-u C-u C-u C-x C-s}
+recover auto-save data after a crash
+
+\metax{}{M-x recover-file}
+\metax{recover using auto-save data}{M-x recover-session}
+\metax{show size in mode line}{M-x size-indication-mode}
+\metax{update with changes on disk}{M-x auto-revert-mode}
+update with changes for any buffer
+
+\metax{}{M-x global-auto-revert-mode}
+update end of buffer with changes on disk
+
+\metax{}{M-x auto-revert-tail-mode}
+use color overlays for tracking edits
+
+\metax{}{M-x highlight-changes-mode}
+\metax{make link}{M-x add-name-to-file}
+\metax{make symbolic link}{M-x make-symbolic-link}
+\metax{flush changes in file system to disk}{M-x unix-sync}
+ 
+{\headingfont buffer}
+
+\key{beginning}{M-<}
+\key{end}{M->}
+\key{go to half way}{M-5 M-<}
+\key{go to 10 percent}{M-1 M-<}
+\key{go to 90 percent}{M-9 M-<}
+\key{go back (see "mark" below)}{C-u C-SPC}
+\key{mark}{C-x h}
+\key{same as previous}{M-> M-<}
+\metax{kill BUFFER}{C-x k <BUFFER> RET}
+\key{kill current}{C-x k RET}
+\metax{ask to kill each and all}{M-x kill-some-buffers}
+automatically kill old buffers
+
+\metax{}{M-x clean-buffer-list}
+schedule daily cleanup
+
+\metax{}{M-x customize-group RET midnight RET}
+\key{switch to last buffer}{C-x b RET}
+switch to BUFFER or make new BUFFER
+
+\metax{}{C-x b <BUFFER> RET}
+switch to a buffer in other window (see "window" below)
+
+\key{}{C-x 4 b}
+show a buffer in other window (see "window" below)
+
+\key{}{C-x 4 C-o}
+kill current and close window (see "window" below)
+
+\key{}{C-x 4 0}
+\metax{same as previous}{C-u M-x quit-window}
+list all (see "buffer menu" below) in other window
+
+\key{}{C-x C-b}
+\metax{list in current window}{M-x buffer-menu}
+list in other window and select it
+
+\metax{}{M-x buffer-menu-other-window}
+avoid switching to current buffer and switch to last
+
+\metax{}{M-x bury-buffer}
+\metax{undo last bury}{M-x unbury-buffer}
+switch to previously switched buffer
+
+\metax{}{C-x b M-p M-p RET}
+\metax{bury buffer and switch to next buffer}{C-x C-<right>}
+\metax{switch to previously buried buffer}{C-x C-<left>}
+\key{save current contents to file on disk}{C-x C-s}
+\metax{rename current to NAME}{M-x rename-buffer RET <NAME>}
+remove "<X>" suffix from buffer name if possible
+
+\metax{}{M-x rename-uniquely}
+restore contents with file on disk (see "undo" below)
+
+\metax{}{M-x revert-buffer}
+\metax{same as previous}{C-x C-v RET}
+copy all of another to point in current
+
+\metax{}{M-x insert-buffer}
+copy region to other (see "region" below)
+
+\metax{}{M-x append-to-buffer}
+overwrite BUFFER with region (see "region" below)
+
+\metax{}{M-x copy-to-buffer}
+permanently enable
+
+\metax{}{M-x enable-command RET erase-buffer RET}
+delete everything (see "delete" below)
+
+\metax{}{M-x erase-buffer}
+open an indirect buffer based on current
+
+\metax{}{M-x clone-indirect-buffer}
+open an indirect buffer but in another window
+
+\key{}{C-x 4 c}
+compare two functions
+
+\metax{}{C-h f car RET C-x o M-x clone-buffer RET C-h f cdr RET}
+show differences with color
+
+\metax{}{M-x highlight-compare-buffers}
+ 
+{\headingfont read only}
+
+\metax{open FILE as read only}{C-x C-r <FILE> RET}
+\key{toggle write status}{C-x C-q}
+\metax{view mode for current buffer}{M-x view-mode}
+\metax{view mode for other buffer}{M-x view-buffer RET RET}
+\metax{open FILE in view mode}{M-x view-file <FILE> RET}
+view mode for BUFFER
+
+\metax{}{M-x view-buffer RET <BUFFER> RET}
+\key{scroll down}{SPC}
+\key{scroll up}{DEL}
+\key{view mode help}{h}
+\key{turn off view mode}{q}
+\metax{turn off view mode}{M-x normal-mode}
+ 
+{\headingfont window}
+
+\key{scroll down}{C-v}
+\key{scroll up}{M-v}
+\key{scroll down one line}{C-1 C-v}
+\key{scroll up one line}{M-1 M-v}
+\key{scroll other window down}{C-M-v}
+\key{same as previous}{C-[ C-v}
+\key{beginning of buffer}{M-<}
+\key{end of buffer}{M->}
+beginning of other buffer
+
+\metax{}{M-x beginning-of-buffer-other-window}
+\metax{end of other buffer}{M-x end-of-buffer-other-window}
+move to first column of center line in display
+
+\key{}{M-r}
+move to first column of first displayed line
+
+\key{}{M-0 M-r}
+move to first column of last displayed line
+
+\key{}{M-- M-r}
+move to first column of fourth displayed line
+
+\key{}{M-4 M-r}
+move to first column of third to last displayed line
+
+\metax{}{C-u - 3 M-r}
+\key{split vertically in two}{C-x 2}
+\key{switch between windows}{C-x o}
+\key{switch to a buffer in other window}{C-x 4 b}
+\key{show a buffer in other window}{C-x 4 C-o}
+\key{close current}{C-x 0}
+\key{close all others leaving current}{C-x 1}
+\metax{same as previous}{ESC ESC ESC}
+\key{open file in other}{C-x 4 C-f}
+\key{open file in other}{C-x 4 f}
+\key{shrink to fit text}{C-x -}
+\key{equalize window heights}{C-x +}
+\key{list all commands starting with C-x 4}{C-x 4 C-h}
+\key{enlarge window by 1 line}{C-x ^}
+\metax{enlarge window 5 lines}{C-u 5 C-x ^}
+\metax{shrink window 5 lines}{M-- 5 C-x ^}
+\key{split horizontally}{C-x 3}
+\metax{enlarge window 5 columns wider}{C-u 5 C-x \}}
+\metax{shrink window 5 columns narrower}{C-5 C-x \{}
+\key{scroll horizontally right}{C-x <}
+\key{scroll horizontally left}{C-x >}
+change if long lines fold or are truncated
+
+\metax{}{M-x toggle-truncate-lines}
+compare buffers starting at point of both
+
+\metax{}{M-x compare-windows}
+\key{continue comparing}{C-x z}
+continue comparing more (see "diff" below)
+
+\key{}{z}
+use color to show all differences
+
+\metax{}{M-x highlight-compare-buffers}
+ 
+{\headingfont buffer menu}
+
+\key{list}{C-x C-b}
+\metax{list in current window}{M-x buffer-menu}
+list in other window and select it
+
+\metax{}{M-x buffer-menu-other-window}
+\metax{list only buffers associated with files}{C-u C-x C-b}
+\key{move down}{SPC}
+\key{move down}{n}
+\key{move down}{C-n}
+\key{move up}{p}
+\key{move up}{C-p}
+toggle current as read only (see "read only" above)
+
+\key{}{\%}
+\key{show modes for current}{?}
+\key{update list}{g}
+automatically update list every 5 seconds
+
+\metax{}{M-x auto-revert-mode}
+toggle list to buffers associated with files
+
+\key{}{T}
+view current in other window (see "window" above)
+
+\key{}{C-o}
+\key{view current in this window}{RET}
+\key{go to current in this window}{e}
+\key{go to current in this window}{f}
+\key{go to current in only 1 window}{1}
+\key{go to current in only 1 window}{2}
+open current buffer in View mode (see "read only" above)
+
+\key{}{V}
+\key{bury current (see "buffer" above)}{b}
+\key{mark current and move down}{m}
+\key{mark to delete current and move up}{C-d}
+\key{mark to delete current and move down}{d}
+\key{mark to delete current and move down}{k}
+\key{mark to delete current and move down}{C-k}
+\key{execute marks}{x}
+\metax{sort by name}{M-2 M-x Buffer-menu-sort}
+\metax{sort by size (ascending)}{M-3 M-x Buffer-menu-sort}
+\metax{sort by mode}{M-4 M-x Buffer-menu-sort}
+\metax{sort by file name}{M-5 M-x Buffer-menu-sort}
+\metax{sort by display time}{M-x Buffer-menu-sort}
+\key{quit}{q}
+ 
+{\headingfont redisplay}
+
+\key{with line at center of window}{C-l}
+\key{with current line at top of window}{C-0 C-l}
+\key{with current line at bottom of window}{C-- C-l}
+\key{same as previous}{M-- C-l}
+\metax{same as previous}{C-u -1 C-l}
+try to make the top of the current function visible in the window
+
+\key{}{C-M-l}
+\key{same as previous}{C-[ C-l}
+\metax{with current line at top of window}{C-M-l C-M-l}
+ 
+{\headingfont command}
+
+\key{execute}{M-x}
+\key{M-x}{ESC x}
+\key{M-x}{C-[ x}
+\metax{M-x}{M-x execute-extended-command}
+\key{previously executed}{M-x M-p}
+\key{next}{M-n}
+complete name of command (see "completion" above)
+
+\key{}{M-x TAB}
+\key{list completions in other window}{M-x ?}
+list completions starting with "forward"
+
+\metax{}{M-x forward TAB}
+\metax{list completions containing "line"}{M-x *line TAB }
+\metax{search backward }{M-x M-r <REGEXP>}
+\metax{search for previously executed}{M-x M-s <REGEXP>}
+\key{show recently typed keys}{C-h l}
+\key{show recently echoed messages}{C-h e}
+\key{repeat last}{C-x z}
+\key{edit and re-evaluate last as Emacs Lisp}{C-x M-ESC}
+\metax{same as previous}{C-x ESC ESC}
+\metax{same as previous}{C-x C-[ C-[}
+\key{same as previous}{C-x M-:}
+\metax{ask before running}{M-x disable-command}
+\metax{run without asking}{M-x enable-command}
+\metax{show recently run commands}{M-x command-history}
+\key{execute command at line in history}{x}
+ 
+{\headingfont iterative command}
+
+\key{repeat next command 4 times}{C-u}
+\key{next command once in opposite direction}{M--}
+\key{next command once in opposite direction}{C--}
+\key{repeat next command 8 times}{C-u 8}
+\key{repeat next command 8 times}{M-8}
+\key{repeat next command 8 times}{C-8}
+\key{repeat next command 8 times}{C-u 8 C-u}
+\key{repeat next command 8 times}{C-8}
+\key{repeat next command 13 times}{C-u 13}
+\key{repeat next command 13 times}{M-1 M-3}
+\key{repeat next command 13 times}{M-1 3}
+\key{repeat next command 13 times}{C-1 C-3}
+\key{repeat next command 13 times}{C-1 3}
+\metax{insert 13 ones}{C-u 13 C-u 1}
+repeat next command 3 times in opposite direction
+
+\key{}{M-- 3}
+repeat next command 3 times in opposite direction
+
+\key{}{C-- 3}
+repeat next command 3 times in opposite direction
+
+\key{}{C-u -3}
+\key{repeat next command 16 times}{C-u C-u}
+\metax{repeat next command 64 times}{C-u C-u C-u}
+\metax{insert 369 zeros}{C-u 369 C-u 0}
+\metax{insert 369 zeros}{M-3 M-6 M-9 C-u 0}
+\metax{insert 369 zeros}{M-3 6 9 C-u 0}
+ 
+{\headingfont non-iterative command}
+
+\key{toggle behavior of next command}{C-u}
+toggle behavior of next command with negative value
+
+\key{}{M--}
+ 
+{\headingfont macro}
+
+\key{start recording}{C-x (}
+\key{same as previous}{F3 }
+\key{finish recording}{C-x )}
+\key{same as previous}{F4 }
+finish recording and run what was just recorded
+
+\key{}{C-x e}
+\key{run last again}{C-x e}
+\key{run last twice}{C-x e e}
+\key{run last 3 times}{M-3 C-x e}
+\key{run last infinite times until error}{C-0 C-x e}
+\key{same as previous}{M-0 C-x e}
+go to each line in region and run last iteratively
+
+\key{}{C-x C-k r}
+\metax{insert counter and increment}{C-x C-k C-i}
+\metax{set counter}{C-x C-k C-c}
+insert numbers 0 through 3 one-per-line
+
+\metax{}{F3 F3 RET F4 F4 F4 F4}
+\metax{same as previous}{C-x ( C-x C-k C-i RET C-x e e e}
+insert evens 0 through 6 one-per-line
+
+\metax{}{F3 C-u 2 F3 RET F4 F4 F4 F4}
+same as previous
+
+\metax{}{C-x ( C-2 C-x C-k C-i RET C-x e e e}
+same as previous
+
+\metax{}{C-x ( C-2 C-x C-k C-i RET C-x e e e}
+insert numbers 1 through 3
+
+\metax{}{C-x C-k C-c 1 RET F3 F3 RET F4 F4 F4 F4}
+same as previous
+
+\metax{}{C-x C-k C-c 1 RET C-x ( C-x C-k C-i RET C-x e e e}
+same as previous (see "rectangle" below)
+
+\metax{}{C-a C-SPC C-3 C-n C-x r N}
+\metax{duplicate line 9 times}{C-S-DEL F3 C-y C-9 F4}
+\metax{duplicate line 10 times}{C-S-DEL C-x ( C-y C-9 C-x e}
+\key{run last and append more commands}{C-u C-x e}
+\key{same as previous}{C-u F3}
+\metax{delete current macro from ring}{C-k C-k C-d}
+\metax{switch to previous macro in ring}{C-k C-k C-p}
+\metax{switch to next macro in ring}{C-k C-k C-n}
+\metax{edit current}{C-x C-k e C-x e}
+\metax{same as previous}{C-x C-k C-e}
+\metax{give current NAME}{C-x C-k n <NAME>}
+\metax{run NAME}{M-x <NAME>}
+\metax{bind current to C-x C-k 1}{C-x C-k b 1}
+\metax{bind current to C-x C-k A}{C-x C-k b A}
+\metax{bind current to C-c 1}{C-x C-k b C-c 1}
+\metax{bind current to C-c a}{C-x C-k b C-c a}
+\metax{run NAME}{M-x <NAME>}
+\metax{edit NAME}{C-x C-k e M-x <NAME>}
+\metax{make recently typed keys and edit}{C-x C-k e C-h l}
+\key{same as previous}{C-x C-k l}
+\metax{insert key in editor}{C-c C-q <KEY>}
+\key{insert C-x in editor}{^X}
+\metax{insert M-x COMMAND in editor}{<<COMMAND>>}
+\key{insert 3 newlines in editor}{3 * R E T}
+\key{same as previous}{3 * ^ M}
+\metax{same as previous}{3 * <<newline>>}
+\key{same as previous}{3 * L F D}
+\key{delete line in editor}{C-a ;;}
+\key{same as previous}{C-a REM}
+\key{same as previous}{C-a C-k}
+\key{comment line in editor}{C-a ;;;}
+\key{save edits}{C-c C-c}
+save NAME
+
+\metax{}{C-x C-f \char`\~/.emacs RET M-x insert-kbd-macro RET <NAME> RET}
+save last
+
+\metax{}{C-x C-f \char`\~/.emacs RET M-x insert-kbd-macro RET RET}
+\metax{run one step at a time}{C-x C-k SPC}
+\key{run current command}{SPC}
+\key{same as previous}{y}
+run current and consecutive similar commands
+
+\key{}{TAB}
+\key{skip command}{f}
+\key{skip and delete from macro}{n}
+\key{same as previous}{d}
+\key{same as previous}{DEL}
+\key{skip current and delete rest of macro}{C-k}
+\key{quit}{q}
+\key{same as previous}{C-g}
+\key{insert one key}{I}
+\key{insert series of keys}{i}
+\key{replace current key}{R}
+\key{replace current key with series of keys}{r}
+\key{append to end of macro}{A}
+\key{append after current key}{a}
+ 
+{\headingfont key}
+
+\key{show recently typed keys}{C-h l}
+\metax{set for all buffers}{M-x global-set-key}
+\metax{remove binding for all buffers}{M-x global-unset-key}
+define binding for current buffer
+
+\metax{}{M-x local-set-key }
+remove binding for current buffer
+
+\metax{}{M-x local-unset-key}
+\key{insert next character literally}{C-q}
+\key{insert literal tab character}{C-q TAB}
+\key{insert literal newline}{C-q C-j}
+\key{insert literal carriage return}{C-q C-m}
+insert literal form feed (page delimiter)
+
+\key{}{C-q C-l}
+\key{modify next key with Control}{C-x @ c}
+\key{modify next key with Meta}{C-x @ m}
+\key{modify next key with Shift}{C-x @ S}
+\key{modify next key with Hyper}{C-x @ h}
+\key{modify next key with Super}{C-x @ s}
+\key{modify next key with Alt}{C-x @ a}
+\key{list bindings starting with C-x @}{C-x @ C-h}
+modify next key with Control and Meta
+
+\metax{}{C-x @ c C-x @ m}
+modify with Control, Meta and Hyper
+
+\metax{}{C-x @ c C-x @ m C-x @ h}
+\key{list bindings starting with C-x}{C-x C-h}
+\key{list bindings starting with C-c}{C-c C-h}
+\key{list bindings starting with C-x 4}{C-x 4 C-h}
+\key{list bindings starting with C-x 5}{C-x 5 C-h}
+\metax{list bindings starting with C-x 8}{C-x 8 C-h }
+\metax{list bindings starting with C-h 4}{C-h 4 C-h }
+\metax{list bindings starting with C-x M-}{C-x ESC C-h }
+\metax{same as previous}{C-x C-[ C-h }
+list bindings starting with ESC
+
+\metax{}{M-: (describe-bindings "\\e") RET}
+same as previous
+
+\metax{}{M-x global-unset-key ESC C-h ESC C-h}
+\metax{list bindings starting with M-ESC}{ESC ESC C-h }
+\metax{same as previous}{C-[ C-[ C-h }
+\key{list bindings starting with M-g}{M-g C-h }
+\key{list bindings starting with M-o}{M-o C-h }
+ 
+{\headingfont undo}
+
+\key{undo, repeat to further undo}{C-x u}
+\key{undo, repeat to further undo}{C-_}
+\key{undo, repeat to further undo}{C-/}
+\metax{undo, then redo}{C-/ C-g C-/}
+\metax{undo, undo, then redo, redo}{C-/ C-/ C-g C-/ C-/}
+\metax{restore buffer with file on disk}{M-x revert-buffer}
+\metax{same as previous}{C-x C-v RET}
+\metax{turn off for current buffer}{M-x buffer-disable-undo}
+\metax{turn on for current buffer}{M-x buffer-enable-undo}
+ 
+{\headingfont search}
+
+\metax{forward to end of MATCH}{C-s <MATCH>}
+\metax{reverse to front of MATCH}{C-r <MATCH>}
+\key{help}{C-h k C-s}
+\key{same as previous}{C-s C-h m}
+\key{show key bindings}{C-s C-h b}
+\metax{forward to end of MATCH}{C-r C-s <MATCH>}
+\metax{reverse to front of MATCH}{C-s C-r <MATCH>}
+\metax{forward to end of second MATCH}{C-s <MATCH> C-s}
+\metax{reverse to front of second MATCH}{C-r <MATCH> C-r}
+if not at first match, go to previous match
+
+\key{}{DEL}
+if at first match, delete character from search string
+
+\key{}{DEL}
+always delete character from search string
+
+\key{}{C-M-w}
+\key{same as previous}{C-[ C-w}
+forward to start of second MATCH
+
+\metax{}{C-s <MATCH> C-s C-r}
+\metax{reverse to end of second MATCH}{C-r <MATCH> C-r C-s}
+forward to end of second MATCH
+
+\metax{}{C-s <MATCH> C-s C-s DEL}
+reverse to start of second MATCH
+
+\metax{}{C-r <MATCH> C-r C-r DEL}
+\key{finish search}{RET}
+cancel search if current search is successful
+
+\key{}{C-g}
+\key{undo search to last successful search}{C-g}
+\key{search for newline}{C-s C-j}
+\metax{search for carriage return}{C-s C-q C-m}
+\key{search for current character}{C-s C-M-y}
+\metax{same as previous}{C-s C-[ C-y}
+\metax{search for next two characters}{C-s C-M-y C-M-y}
+\metax{search for current character}{C-s C-M-y C-M-y DEL}
+\key{search for rest of current word}{C-s C-w}
+\metax{search for next two words}{C-s C-w C-w}
+\metax{search for rest of current word}{C-s C-w C-w DEL}
+\metax{search for rest of current line}{C-s M-s C-e}
+undo search for rest of current line
+
+\metax{}{C-s M-s C-e DEL}
+search for last killed text (see "kill" below)
+
+\key{}{C-s C-y}
+search for second to last killed text (see "kill" below)
+
+\key{}{C-s M-y}
+\key{show previous search}{C-s M-p}
+\key{show oldest stored search}{C-s M-n}
+complete for BEGINNING of stored searches
+
+\metax{}{C-s M-TAB <BEGINNING> }
+\key{same as previous}{C-s C-M-i}
+\metax{same as previous}{C-s C-[ C-i}
+\key{resume last search backward}{C-s C-s}
+\key{resume last search forward}{C-r C-r}
+\key{edit search}{M-e}
+toggle regular expression search (see "regular expression" below)
+
+\key{}{M-r}
+\key{toggle case-sensitivity of search}{M-c}
+\key{toggle word-based search}{M-s w}
+search, query, and replace (see "replace" below)
+
+\key{}{M-\%}
+interactive query SEARCH and REPLACE
+
+\metax{}{C-s <SEARCH> M-\% <REPLACE>}
+\key{query replace by word}{C-u M-\%}
+change case-sensitivity of all searches
+
+\metax{}{M-x isearch-toggle-case-fold}
+ 
+{\headingfont non-interactive search}
+
+\key{forward case-sensitive}{C-s RET}
+\key{backward case-sensitive}{C-r RET}
+ignoring punctuation and whitespace
+
+\metax{}{M-x word-search-forward}
+ignoring punctuation and whitespace
+
+\metax{}{M-x word-search-backward}
+ 
+{\headingfont regular expression}
+
+\key{search forward}{C-M-s}
+\key{same as previous}{C-[ C-s}
+\key{same as previous}{C-u C-s}
+\key{same as previous}{C-s M-r}
+\key{search reverse}{C-M-r}
+\key{same as previous}{C-[ C-r}
+\key{toggle off regular expression syntax}{M-r}
+\key{repeat last regular expression forward}{C-M-s C-s}
+\key{repeat last regular expression backward}{C-M-r C-s}
+suspend replacement and editing buffer (see "recursive edit" above)
+
+\key{}{C-r}
+\key{resume query and replace}{C-M-c}
+\key{same as previous}{C-[ C-c}
+\key{regular expression replace}{C-M-\%}
+interactive query replace (see "replace" below)
+
+\metax{}{C-M-s <SEARCH> M-\% <REPLACE>}
+show matches in buffer (see "occur" below)
+
+\key{}{M-x occur}
+\key{same as previous}{M-s o}
+\key{same as previous}{M-s o}
+\metax{count matches after point}{M-x how-many}
+\metax{same as previous}{M-x count-matches}
+delete matching lines to end of buffer
+
+\metax{}{M-x flush-lines}
+keep matching lines delete the rest to end of buffer
+
+\metax{}{M-x keep-lines}
+\key{highlight all matches in buffer}{M-s h r}
+\key{highlight all lines matching}{M-s h l}
+\key{highlight phrase}{M-s h p}
+\key{un-highlight}{M-s h u}
+ 
+{\headingfont replace}
+
+\key{search, query, and replace}{M-\%}
+search regular expression, query, and replace
+
+\key{}{C-M-\%}
+\key{same as previous}{C-[ C-\%}
+\key{resume last}{M-\% RET}
+\metax{resume last as regular expression}{C-M-\% RET}
+\metax{interactive}{C-s <SEARCH> M-\% <REPLACE>}
+interactive with regular expression
+
+\metax{}{C-M-s <SEARCH> M-\% <REPLACE>}
+\key{replace one and go to next}{y}
+\key{same as previous}{SPC}
+\key{replace but don't move}{,}
+\key{skip}{n}
+\key{same as previous}{DEL}
+\key{previous}{^}
+\key{replace all}{!}
+\key{edit replacement}{e}
+suspend to edit buffer (see "recursive edit" above)
+
+\key{}{C-r}
+\key{delete match and suspend to edit buffer}{C-w}
+\key{finish edit and resume}{C-M-c}
+\key{same as previous}{C-[ C-c}
+\key{stop}{RET}
+\key{stop}{q}
+replace "long" for "int" in .c files
+
+\metax{}{C-x d *.c RET Q int RET long}
+ 
+{\headingfont delete}
+
+\key{current character}{C-d}
+\key{next 4 characters}{C-u C-d}
+\key{next 8 characters}{C-u 8 C-d}
+\metax{next 16 characters}{C-u C-u C-d}
+\key{character backwards (backspace)}{DEL}
+\key{same as previous}{M-- C-d}
+\metax{previous 64 characters}{C-u C-u C-u DEL}
+\key{previous 5 characters}{C-5 DEL}
+\key{previous 5 characters}{M-1 0 DEL}
+\metax{region}{M-x delete-region}
+permanently enable
+
+\metax{}{M-x enable-command RET erase-buffer RET}
+\metax{entire buffer}{M-x erase-buffer}
+all lines including current to end of buffer
+
+\metax{}{M-x flush-lines RET RET}
+ 
+{\headingfont kill (cut)}
+
+\metax{character (see "character" below)}{C-SPC C-f C-w}
+\key{same as previous}{C-1 C-d}
+\key{character backwards}{C-1 DEL}
+\key{same as previous}{C-- C-d}
+\key{word (see "word" below)}{M-d}
+\key{to end of line (see "line" below)}{C-k}
+\key{beginning of line}{C-0 C-k}
+\key{entire line}{C-S-DEL}
+\key{line including newline}{C-1 C-k}
+\key{to beginning of previous line}{M-- C-k}
+\key{next 4 lines}{C-u C-k}
+\key{sentence (see "sentence" below)}{M-k}
+\key{region (see "region" below)}{C-w}
+\key{region but don't delete (copy)}{M-w}
+\key{word (see "word" below)}{M-d}
+\key{word backwards}{C-DEL}
+\key{word backwards}{M-DEL}
+\key{sexp (see "sexp" below)}{C-M-k}
+\key{same as previous}{C-[ C-k}
+\key{sexp backwards}{C-M-DEL}
+\key{same as previous}{C-[ C-DEL}
+sentence backwards (see "sentence" below)
+
+\key{}{C-x DEL}
+paragraph (see "paragraph" below)
+
+\metax{}{M-x kill-paragraph}
+paragraph backwards (see "paragraph" below)
+
+\metax{}{M-x backward-kill-paragraph}
+\key{append to next}{C-M-w}
+\key{same as previous}{C-[ C-w}
+\key{region appending to previous}{C-M-w C-w}
+region appending to previous, but don't delete (copy)
+
+\key{}{C-M-w M-w}
+\key{line appending to previous}{C-M-w C-k}
+\key{word appending to previous}{C-M-w M-d}
+\key{sentence appending to previous}{C-M-w M-k}
+paragraph appending to previous
+
+\metax{}{C-M-w M-x kill-paragraph}
+\metax{sexp appending to previous}{C-M-w C-M-k}
+\metax{sexp backward appending to previous}{C-M-w C-M-DEL}
+\key{delete everything to a character}{M-z}
+\key{same as previous}{M-1 M-z}
+delete everything to a character backwards
+
+\key{}{M-- M-z}
+\metax{same as previous}{C-u -1 M-z}
+delete everything to 3rd occurrence of a character
+
+\key{}{C-u 3 M-z}
+ 
+{\headingfont yank (paste)}
+
+\key{the last kill sequence}{C-y}
+\key{the last kill sequence}{C-y}
+\key{the 2nd to last kill sequence}{C-y M-y}
+\key{same as previous}{C-2 C-y}
+\metax{replace region with last kill}{C-w C-y M-y}
+the last kill sequence with point at beginning
+
+\key{}{C-u C-y}
+ 
+{\headingfont mark}
+
+\key{set at current point}{C-SPC}
+\key{set at current point}{C-@}
+\key{toggle between current point and mark}{C-x C-x}
+\key{move to last set mark in current buffer}{C-u C-SPC}
+\key{move to last set mark in current buffer}{C-u C-@}
+\key{move to last set mark in any buffer}{C-x C-SPC}
+\key{move to last set mark in any buffer}{C-x C-@}
+\key{buffer}{C-x h}
+\key{same as previous}{M-> M-<}
+\key{word}{M-@}
+\key{paragraph}{M-h}
+\metax{sentence}{M-x mark-end-of-sentence}
+\key{function}{C-M-h}
+\key{same as previous}{C-[ C-h}
+\key{page separated by form feed}{C-x C-p}
+\key{sexp (see "sexp" below)}{C-M-@}
+\key{same as previous}{C-[ C-@}
+\key{sexp}{C-M-SPC}
+\key{same as previous}{C-[ C-SPC}
+ 
+{\headingfont region}
+
+set end-point of region (see "mark" above)
+
+\key{}{C-SPC}
+\key{set end-point of region}{C-@}
+\key{kill (see "kill" above)}{C-w}
+\key{kill but don't delete (copy)}{M-w}
+\key{count lines, words and characters}{M-=}
+permanently enable
+
+\metax{}{M-x enable-command RET narrow-to-region RET}
+\key{narrow}{C-x n n}
+\key{widen}{C-x n w}
+\metax{delete}{M-x delete-region}
+\metax{save to FILE}{M-x write-region RET <FILE>}
+copy to point in BUFFER
+
+\metax{}{M-x append-to-buffer RET <BUFFER>}
+\metax{save to end of FILE}{M-x append-to-file RET <FILE>}
+copy and overwrite BUFFER
+
+\metax{}{M-x copy-to-buffer RET <BUFFER> RET}
+ 
+{\headingfont text register}
+
+\key{store region to "a" key}{C-x r s a}
+\metax{kill region to "a" key}{C-u C-x r s a}
+\key{insert region stored to "a" key}{C-x r i a}
+store rectangle to "a" key (see "rectangle" below)
+
+\key{}{C-x r r a}
+ 
+{\headingfont point register}
+
+\metax{store current to "a" key}{C-x r SPC a}
+\key{move to point to "a" key}{C-x r j a}
+ 
+{\headingfont window register}
+
+\key{store configuration of windows in frame}{C-x r w a}
+\key{restore window configurations}{C-x r j a}
+ 
+{\headingfont number register}
+
+\metax{store 1 to "a" key}{C-u 1 C-x r n a}
+\metax{add 1 to number to "a" key}{C-u 1 C-x r + a}
+\key{insert number to "a" key}{C-x r i a}
+ 
+{\headingfont bookmark register}
+
+\metax{save default}{C-x r m RET}
+\metax{save as NAME}{C-x r m <NAME> RET}
+\metax{move to default}{C-x r b RET}
+\metax{move to NAME}{C-x r b <NAME> RET}
+\key{list}{C-x r l}
+\metax{save all to file}{M-x bookmark-save}
+ 
+{\headingfont whitespace}
+
+\key{insert space}{SPC}
+indent or insert tab (see "indent" below)
+
+\key{}{TAB}
+\key{insert literal tab character}{C-q TAB}
+\key{insert page separator}{C-q C-l}
+\key{insert null}{C-q 0 RET}
+remove all whitespace at point except one space
+
+\key{}{M-SPC}
+\key{remove all whitespace around point}{M-\\}
+\key{remove whitespace before point}{C-u M-\\}
+\metax{remove whitespace after point}{C-SPC M-m C-w}
+remove at end of all lines in buffer
+
+\metax{}{M-x delete-trailing-whitespace}
+remove leading for all lines in region
+
+\metax{}{C-a C-0 C-M-\\}
+\metax{remove all leading in lines buffer}{C-x h C-0 C-M-\\}
+\metax{display whitespace visually}{M-x whitespace-mode}
+configure Whitespace Mode
+
+\metax{}{M-x whitespace-toggle-options}
+ 
+{\headingfont indent}
+
+\key{line with mode-specific rules}{TAB}
+\key{same as previous}{C-i}
+line and (for supported modes) expression on subsequent lines
+
+\key{}{C-u TAB}
+\key{same as previous}{C-u C-i}
+\key{go to indentation at beginning of line}{M-m}
+\key{center line}{M-o M-s}
+\key{region with mode-specific rules}{C-M-\\}
+\key{same as previous}{C-[ C-\\}
+\metax{buffer}{C-x h C-M-\\ C-u C-SPC}
+\metax{buffer}{C-x h C-M-\\ C-u C-SPC}
+\metax{paragraph}{M-h C-M-\\ C-u C-SPC}
+\metax{defun}{C-M-h C-M-\\ C-u C-SPC}
+\metax{page}{C-x C-p C-M-\\ C-u C-SPC}
+\metax{sexp}{C-M-SPC C-M-\\ C-u C-SPC}
+\metax{region to 4 columns}{C-u C-M-\\}
+\metax{line to 4 columns}{C-SPC C-a C-u C-M-\\}
+\metax{buffer to 4 columns}{C-x h C-u C-M-\\}
+\key{region by one column more}{C-x TAB}
+\metax{line by one column more}{C-SPC C-a C-x TAB}
+\key{same as previous}{C-a SPC}
+\metax{region by 4 columns more}{C-u C-x TAB}
+\metax{region by 8 columns more}{C-u 8 C-x TAB}
+\metax{region by 2 columns less}{C-u - 2 C-x TAB}
+insert 4 columns for all lines in buffer
+
+\metax{}{C-x h C-u C-x TAB}
+\metax{remove from all in lines buffer}{C-x h C-0 C-M-\\}
+\metax{convert spaces in region to tabs}{M-x tabify}
+\metax{convert tabs in region to spaces}{M-x untabify}
+always insert spaces
+
+\metax{}{M-x set-variable RET indent-tabs-mode RET nil RET}
+\key{indent to tab stop}{M-i}
+\metax{configure stops}{M-x edit-tab-stops}
+\key{insert a stop}{:}
+\key{remove a stop}{SPC}
+\key{save stops}{C-c C-c}
+\key{remove and merge line with previous}{M-^}
+\metax{indent line to 4th column}{C-a C-u M-x indent-to}
+ 
+{\headingfont newline}
+
+\key{one}{RET}
+\key{one}{C-m}
+\key{one and indent}{C-j}
+\key{one below current and indent}{C-o}
+indent current and indent next
+
+\metax{}{M-x reindent-then-newline-and-indent}
+\key{literal newline}{C-q C-j}
+\key{insert literal carriage return}{C-q C-m}
+\key{keep text following point at same column}{C-M-o}
+\key{same as previous}{C-[ C-o}
+\key{three}{C-u 3 RET}
+\key{three}{C-u 3 C-m}
+\key{three and indent}{C-u 3 C-j}
+\key{three below current and indent}{C-u 3 C-o}
+move text following point at same column without fill prefix
+
+\key{}{C-u C-M-o}
+ 
+{\headingfont line}
+
+\key{next}{C-n}
+\key{previous}{C-p}
+\key{beginning}{C-a}
+\key{go to}{M-g g}
+\key{go to}{M-g M-g}
+\key{in last buffer go to}{C-u M-g g}
+\metax{in last buffer go to}{C-u M-g M-g}
+\key{end}{C-e}
+\key{kill to end}{C-k}
+\key{kill to beginning}{C-0 C-k}
+\key{kill from beginning to end}{C-a C-k}
+kill from beginning to end including newline
+
+\key{}{C-S-DEL}
+\metax{same as previous}{C-a C-k C-k}
+\key{kill to end including newline}{C-1 C-k}
+\key{kill next 4}{C-u C-k}
+\key{kill next 2}{C-2 C-k}
+\key{kill to beginning of previous}{M-- C-k}
+\key{merge current line with previous}{M-^}
+\key{merge next line with current}{C-u M-^}
+\key{same as previous}{C-n M-^}
+insert new after current and indent (see "newline" above)
+
+\key{}{C-o}
+keep text following point at same column (see "newline" above)
+
+\key{}{C-M-o}
+\key{same as previous}{C-[ C-o}
+when not empty line, remove all empty lines below current
+
+\key{}{C-x C-o}
+when only empty line, remove all empty lines
+
+\key{}{C-x C-o}
+when empty, remove all but one empty lines
+
+\key{}{C-x C-o}
+\key{count lines in region}{M-=}
+\key{count lines in page}{C-x l}
+\metax{count lines in buffer}{C-x h M-= C-u C-SPC}
+count lines from point forward
+
+\metax{}{C-SPC M-> C-x C-x M-=}
+\metax{same as previous}{M-> C-x C-x M-=}
+\metax{display number}{M-x what-line}
+\key{transpose with previous}{C-x C-t}
+swap with line of mark (see "mark" above)
+
+\metax{}{C-0 C-x C-t}
+\metax{alphabetically (see "sort" below)}{M-x sort-lines}
+\metax{reverse order in region}{M-x reverse-region}
+show lines matches in buffer (see "occur" below)
+
+\key{}{M-x occur}
+\metax{count matches}{M-x how-many}
+\metax{delete matches to end of buffer}{M-x flush-lines}
+delete all lines after point
+
+\metax{}{M-x flush-lines RET RET}
+keep matches to end of buffer, delete the rest
+
+\metax{}{M-x keep-lines}
+keep matches in region, delete rest
+
+\metax{}{C-SPC C-SPC C-2 C-SPC M-x keep-lines}
+\metax{narrow}{C-a C-SPC C-e C-x n n}
+change file to UNIX style line endings
+
+\metax{}{C-x RET f unix RET}
+\metax{change file to DOS}{C-x RET f dos RET}
+\metax{change file to Mac}{C-x RET f dos RET}
+\metax{change file to UTF-8}{C-x RET f utf-8 RET}
+\metax{show line number in mode line}{M-x line-number-mode}
+change if long lines fold or are truncated
+
+\metax{}{M-x toggle-truncate-lines}
+change if long lines are wrapped at word boundary
+
+\metax{}{M-x toggle-word-wrap}
+ 
+{\headingfont character}
+
+\key{forward}{C-f}
+\key{backward}{C-b}
+\key{delete (see "delete" above)}{C-d}
+\key{kill (see "kill" above)}{C-1 C-d}
+\key{transpose}{C-t}
+\key{information of current}{C-x =}
+list properties of current in Help buffer
+
+\key{}{C-u C-x =}
+\metax{same as previous}{M-x describe-char}
+visit Nth character in buffer
+
+\metax{}{M-x goto-char RET <N> RET}
+\metax{list names of charsets}{M-x list-characters-sets}
+\key{insert null}{C-q 0 RET}
+\key{insert space}{C-q SPC}
+\metax{insert space using octal value 40}{C-q 40 RET}
+use hex for C-q
+
+\metax{}{M-x set-variable RET read-quoted-char-radix 16}
+\metax{insert space using hex value 20}{C-q 20 RET}
+use decimal for C-q
+
+\metax{}{M-x set-variable RET read-quoted-char-radix 10}
+\metax{insert space using decimal value 32}{C-q 32 RET}
+\metax{insert 8 null characters}{C-u 8 C-q 0 RET}
+\metax{insert 8 zeros}{C-u 8 C-u 0 RET}
+ 
+{\headingfont word}
+
+\key{forward}{M-f}
+\key{same as previous}{M-<right>}
+\key{same as previous}{C-<right>}
+\key{backward}{M-b}
+\key{same as previous}{M-<left>}
+\key{same as previous}{C-<left>}
+\key{kill forward}{M-d}
+\key{kill backward}{C-DEL}
+\key{kill backward}{M-DEL}
+\key{transpose}{M-t}
+\key{mark}{M-@}
+\metax{mark next 100}{C-u 100 M-@}
+\key{mark previous 3}{M-- 3 M-@}
+\metax{count for buffer}{M-< M-x how-many RET \\w+ RET}
+\key{same as previous}{C-x h M-=}
+make hyphens word character
+
+\metax{}{M-x modify-syntax-entry RET - w RET}
+make underscores a word character
+
+\metax{}{M-x modify-syntax-entry RET _ w RET}
+ 
+{\headingfont capitalization}
+
+\key{lowercase next word}{M-l}
+\key{lowercase previous word}{M-- M-l}
+\key{lowercase next 4 words}{C-u M-l}
+\key{uppercase next word}{M-u}
+\key{uppercase previous word}{M-- M-u}
+\key{uppercase next 2}{C-u 2 M-l}
+\key{capitalize next}{M-c}
+\key{capitalize previous}{M-- M-c}
+\key{capitalize next 2}{C-u 2 M-c}
+permanently enable
+
+\metax{}{M-x enable-command RET downcase-region RET}
+\key{lowercase region}{C-x C-l}
+permanently enable
+
+\metax{}{M-x enable-command RET upcase-region RET}
+\key{uppercase region}{C-x C-u}
+\metax{capitalize region}{M-x capitalize-region}
+ 
+{\headingfont sentence}
+
+\key{beginning}{M-a}
+\key{end}{M-e}
+\metax{mark}{M-x mark-end-of-sentence}
+\key{kill forwards to end}{M-k}
+\key{kill backwards to beginning}{C-x DEL}
+\metax{transpose}{M-x transpose-sentences}
+fix spaces forward with query and replace
+
+\metax{}{M-x repunctuate-sentences}
+ 
+{\headingfont paragraph}
+
+\key{forward}{M-\}}
+\key{backward}{M-\{}
+\key{mark}{M-h}
+\key{fill}{M-q}
+\key{fill and full justify}{C-u M-q}
+\metax{fill all in region}{M-x fill-region}
+fill all region together as one
+
+\metax{}{M-x fill-region-as-paragraph}
+fill region as separate
+
+\metax{}{M-x fill-individual-paragraphs}
+\metax{set fill column to current point}{C-x f RET }
+\metax{set fill column to 72}{C-x f 72 RET }
+\metax{same as previous}{C-u 72 C-x f}
+\metax{kill to beginning}{M-x backward-kill-paragraph}
+\metax{kill to end}{M-x kill-paragraph}
+\metax{kill entire}{M-\{ M-x kill-paragraph}
+\key{kill entire}{M-h C-w}
+\key{kill entire but don't delete (copy)}{M-h M-w}
+\metax{transpose}{M-x transpose-paragraphs}
+\key{center}{M-o M-S}
+justify region to the left
+
+\metax{}{M-x set-justification-left}
+justify region to the right
+
+\metax{}{M-x set-justification-right}
+justify region to full width
+
+\metax{}{M-x set-justification-full}
+justify region to the center
+
+\metax{}{M-x set-justification-center}
+\metax{unjustify region}{M-x set-justification-none}
+\metax{alphabetically}{M-x sort-paragraphs}
+\metax{in reverse}{C-u M-x sort-paragraphs}
+expect leading space rather than empty lines
+
+\metax{}{M-x paragraph-indent-text-mode}
+automatically fill at the end of the line
+
+\metax{}{M-x auto-fill-mode}
+automatically fill entire paragraph after each edit
+
+\metax{}{M-x refill-mode}
+distinguish intentional newlines from filling
+
+\metax{}{M-x use-hard-newlines}
+increase left margin of region by one column
+
+\key{}{C-x TAB}
+increase left margin of region by 4 columns
+
+\metax{}{C-u C-x TAB}
+increase left margin of region by 8 columns
+
+\metax{}{C-u 8 C-x TAB}
+decrease left margin of region by 2 columns less
+
+\metax{}{C-u - 2 C-x TAB}
+add 4 columns to current paragraph
+
+\metax{}{M-x increase-left-margin}
+remove 4 columns to current paragraph
+
+\metax{}{M-x decrease-left-margin}
+set text to beginning of line as fill prefix
+
+\key{}{C-x .}
+\key{add the fill prefix in region}{C-M-\\}
+\key{same as previous}{C-[ C-\\}
+\key{set indentation as fill prefix}{M-m C-x .}
+\key{reset fill prefix}{C-a C-x .}
+ 
+{\headingfont page}
+
+\key{insert separator}{C-q C-l}
+\key{forward}{C-x ]}
+\key{backward}{C-x [}
+\key{count lines}{C-x l}
+\key{mark}{C-x C-p}
+\key{narrow}{C-x n p}
+\key{widen}{C-x n w}
+\metax{alphabetically}{M-x sort-pages}
+\metax{display number}{M-x what-page}
+ 
+{\headingfont sexp (parenthetical expressions)}
+
+\key{insert opening and closing parentheses}{M-(}
+reindent current and start new line past closing parenthesis
+
+\key{}{M-)}
+\key{move to the next}{C-M-f}
+\key{same as previous}{C-[ C-f}
+\metax{same as previous}{C-M-<right>}
+\key{move backward}{C-M-b}
+\key{same as previous}{C-[ C-b}
+\metax{same as previous}{C-M-<left>}
+\key{move down into the expression}{C-M-d}
+\key{same as previous}{C-[ C-d}
+\metax{same as previous}{C-M-<down>}
+move up from current and to beginning of outside
+
+\key{}{C-M-u}
+\key{same as previous}{C-[ C-u}
+\key{same as previous}{C-M-<up>}
+move up from current and to end of outside
+
+\metax{}{M-x up-list}
+\key{same as previous}{M-- C-M-u}
+\key{kill}{C-M-k}
+\key{same as previous}{C-[ C-k}
+\key{kill backward}{C-M-DEL}
+\key{same as previous}{C-[ C-DEL}
+\key{mark}{C-M-@}
+\key{same as previous}{C-[ C-@}
+\key{transpose}{C-M-t}
+\key{same as previous}{C-[ C-t}
+match all open and closed parentheses in buffer
+
+\metax{}{M-x check-parens}
+ 
+{\headingfont function}
+
+\key{go to beginning}{C-M-a}
+\key{same as previous}{C-[ C-a}
+\key{go to end}{C-M-e}
+\key{same as previous}{C-[ C-e}
+\key{mark current}{C-M-h}
+\key{same as previous}{C-[ C-h}
+\metax{indent current}{C-M-h C-M-\\ C-u C-SPC}
+evaluate current (see "emacs lisp" below)
+
+\key{}{C-M-x}
+\key{same as previous}{C-[ C-x}
+\key{narrow}{C-x n d}
+\key{widen}{C-x n w}
+ 
+{\headingfont comment}
+
+\key{new}{M-;}
+\key{indent}{M-;}
+\key{kill current}{C-u M-;}
+\key{kill current}{C- M-;}
+\key{set end point of region}{C-SPC}
+\metax{region}{M-x comment-region}
+remove comment characters in region
+
+\metax{}{M-x uncomment-region}
+\metax{region, or uncomment if already}{C-x C-x M-;}
+\key{set to start at point}{C-x ;}
+\key{kill on this line}{M-- C-x ;}
+insert and align or just align to column on previous line
+
+\key{}{C-u C-x ;}
+if within one, continue on next line and indent
+
+\key{}{M-j}
+\key{same as previous}{C-M-j}
+\key{same as previous}{C-[ C-j}
+\metax{surround region}{M-x comment-box}
+\key{merge current line with previous}{M-^}
+\key{merge next line with current}{C-u M-^}
+\key{same as previous}{C-n M-^}
+ 
+{\headingfont occur}
+
+list matching lines for regular expression
+
+\key{}{M-x occur}
+\key{same as previous}{M-s o}
+show matches in region (see "region" above)
+
+\metax{}{C-x n n M-x occur}
+show matches with 3 lines of context
+
+\metax{}{C-u 3 M-x occur}
+show matches with 3 lines before match
+
+\metax{}{C-u - 3 M-x occur}
+\key{help}{?}
+\key{same as previous}{h}
+\key{go to current match}{RET}
+\key{same as previous}{C-c C-c}
+\key{same as previous}{o}
+\key{show current match in other window}{C-o}
+\key{next match}{n}
+\key{previous match}{p}
+\key{update list of matching lines}{g}
+\key{keep Occur buffer around by cloning}{c}
+\key{keep Occur buffer around by renaming}{r}
+\key{quit}{q}
+\key{quit and kill buffer}{z}
+\key{edit buffer from Occur buffer}{e}
+ 
+{\headingfont transpose}
+
+\key{characters (see "character" above)}{C-t}
+\key{previous with its previous}{M-- C-t}
+\key{forward 3 characters}{C-u 3 C-t}
+\key{forward 4 characters}{C-u C-t}
+\key{backward 3 characters}{M-- 3 C-t}
+\key{backward 4 characters}{C-u C-t}
+\key{words (see "word" above)}{M-t}
+\key{lines (see "line" above)}{C-x C-t}
+paragraphs (see "paragraph" above)
+
+\metax{}{M-x transpose-paragraphs}
+sentences (see "sentence" above)
+
+\metax{}{M-x transpose-sentences}
+parenthetical expressions (see "sexp" above)
+
+\key{}{C-M-t}
+ 
+{\headingfont column}
+
+\metax{move to first column}{M-0 M-x move-to-column}
+\metax{move to second column}{M-x move-to-column}
+\metax{move to column 8}{M-7 M-x move-to-column}
+show column number in mode line
+
+\metax{}{M-x column-number-mode}
+permanently enable
+
+\metax{}{M-x enable-command RET set-goal-column RET}
+move to beginning of center line of window (see "window" above)
+
+\key{}{M-r}
+\key{set column for line motion commands}{C-x C-n}
+unset goal column for line motion commands
+
+\metax{}{C-u C-x C-n}
+add a ruler to the current buffer's window
+
+\metax{}{M-x ruler-mode}
+ 
+{\headingfont rectangle}
+
+\key{delete, no kill}{C-x r d}
+\key{kill}{C-x r k}
+\key{yank}{C-x r y}
+\key{convert to whitespace}{C-x r c}
+\key{insert whitespace}{C-x r o}
+\metax{replace each line with STRING}{C-x r t <STRING>}
+insert STRING at each line
+
+\metax{}{M-x string-insert-rectangle}
+remove leading whitespace
+
+\metax{}{M-x delete-whitespace-rectangle}
+remove leading whitespace
+
+\metax{}{M-x delete-whitespace-rectangle}
+\key{store to register "a"}{C-x r r a}
+\key{number region starting at 1}{C-x r N}
+number region starting with 010
+
+\metax{}{C-u C-x r N 10 RET \%03d SPC RET}
+ 
+{\headingfont table}
+
+\metax{insert}{M-x table-insert}
+\metax{activate mode at point}{M-x table-recognize-table}
+deactivate mode at point
+
+\metax{}{M-x table-unrecognize-table}
+\key{forward cell}{TAB}
+\key{backward cell}{S-TAB}
+inactivate table at point
+
+\metax{}{C-u M-x table-recognize-table}
+\metax{insert 3 columns}{C-u 3 M-x table-insert-column}
+\metax{delete 3 columns}{C-u 3 M-x table-delete-column}
+\metax{insert 3 rows}{C-u 3 M-x table-insert-row}
+\metax{delete 3 rows}{C-u 3 M-x table-delete-row}
+\key{widen column at point}{C->}
+\key{narrow column at point}{C-<}
+\key{heighten row at point}{C-\}}
+\key{shorten row at point}{C-\{}
+\key{justify text in cell}{C-:}
+\key{split cell}{C-|}
+\key{merge cell}{C-c C-c *}
+insert sequence of characters or numbers
+
+\metax{}{M-x table-sequence}
+convert tab delimited region
+
+\metax{}{M-x table-capture RET C-q C-i RET C-q C-j RET RET RET}
+\metax{convert to HTML or LaTeX}{M-x table-generate-source}
+\metax{activate mode for all}{M-x table-recognize}
+\metax{deactivate mode for all}{M-x table-unrecognize}
+ 
+{\headingfont delimited text}
+
+\metax{change settings}{M-x delimit-columns-customize}
+format rectangle (see "rectangle" above)
+
+\metax{}{M-x delimit-columns-rectangle}
+\metax{format region}{M-x delimit-columns-region}
+ 
+{\headingfont align}
+
+\metax{by guessing separator}{C-u M-x align}
+\metax{on entire "section"}{M-x align-current}
+\metax{based on regular expression}{M-x align-regexp}
+ask for grouping, number of spaces and repeating
+
+\metax{}{C-u M-x align-regexp}
+ 
+{\headingfont sort}
+
+\metax{lines alphabetically in region}{M-x sort-lines}
+\metax{in reverse}{C-u M-x sort-lines}
+region alphabetically by 3rd word in each line
+
+\metax{}{C-3 M-x sort-fields}
+region numerically by 3rd number in each line
+
+\metax{}{M-x sort-numeric-fields}
+lines alphabetically for column between point and mark
+
+\metax{}{M-x sort-columns}
+\metax{in reverse}{C-u M-x sort-columns}
+paragraphs alphabetically (see "paragraph" above)
+
+\metax{}{M-x sort-paragraphs}
+\metax{in reverse}{C-u M-x sort-paragraphs}
+pages alphabetically (see "page" above)
+
+\metax{}{M-x sort-pages}
+records alphabetically by key in region
+
+\metax{}{M-x sort-regexp-fields}
+ 
+{\headingfont directory (folder)}
+
+\key{change working}{M-x cd}
+make PATH including any missing parents
+
+\metax{}{M-x make-directory RET <PATH> RET}
+\metax{delete NAME}{M-x delete-directory RET <NAME> RET}
+\metax{delete NAME}{M-x copy-directory RET <NAME> RET}
+rename current to NAME
+
+\metax{}{M-x rename-file RET RET <NAME> RET}
+\key{list current}{C-x d RET}
+\metax{same as previous}{C-x C-f RET}
+list current in other window (see "window" above)
+
+\metax{}{C-x 4 d RET}
+\metax{list parent}{C-x d .. RET}
+\metax{same as previous}{C-x C-f .. RET}
+\metax{same as previous}{C-x C-d RET ^}
+\metax{same as previous}{C-x C-d RET C-x C-j}
+\metax{list PATH}{C-x d <PATH> RET}
+\metax{same as previous}{C-x C-f <PATH> RET}
+\key{help}{?}
+\key{show recent errors}{?}
+go to listing of current file
+
+\metax{}{M-x dired-jump RET RET}
+\key{go to next}{>}
+\key{go to previous}{<}
+\key{next file}{n}
+\key{next file}{p}
+\key{move to file in listing}{j}
+\key{reread the listing}{g}
+\key{toggle sort by date}{s}
+\key{list parent}{^}
+\metax{list parent}{M-x dired-jump}
+edit the command switches for the file list command
+
+\key{}{C-u s}
+automatically update list every 5 seconds
+
+\metax{}{M-x auto-revert-mode}
+\key{search listings (see "search" above)}{C-s}
+\key{open file or directory}{RET}
+\key{same as previous}{f}
+\key{same as previous}{e}
+\key{open in other window}{o}
+\key{display in other window}{C-o}
+\key{show file type}{y}
+\key{add new}{+}
+\key{show listing of current subdirectory}{i}
+show listings of all subdirectories, "fully recursive"
+
+\metax{}{C-u s R RET}
+\key{hide listing of current subdirectory}{\$}
+\key{hide listing of all subdirectories}{M-\$}
+\key{go to next subdirectory listings}{C-M-n}
+\key{go to previous subdirectory listings}{C-M-p}
+\metax{visit FILE (see "file" above)}{C-x C-f <FILE> RET}
+\key{run command on current file}{!}
+\key{make current file world-readable}{M o+r RET}
+\metax{change current file to OWNER}{O <OWNER> RET}
+\metax{change current file to GROUP}{G <GROUP> RET}
+\metax{move current file to FILE}{R <FILE> RET}
+add \char`\~ to the end of current file's name
+
+\metax{}{R M-n \char`\~ RET}
+\metax{copy current file to file}{C <FILE> RET}
+make a tilde copy the current file
+
+\metax{}{C M-n \char`\~ RET}
+\key{send current file to default printer}{P RET}
+\metax{print current file in Postscript}{P RET M-DEL a2ps}
+send current file to <PRINTER>
+
+\metax{}{P SPC -P SPC <PRINTER>}
+\key{touch current file}{T}
+\key{compress current file}{Z}
+\metax{hardlink current file to FILE}{H <FILE> RET}
+\metax{symlink current file to FILE}{S <FILE> RET}
+\key{mark current file}{m}
+\key{unmark current file}{u}
+\key{unmark current file and go to previous}{DEL}
+\key{toggle marks}{t}
+\key{unmark all files}{U}
+\key{same as previous}{* !}
+\key{search marked}{A}
+\key{same as previous}{M-s a C-s}
+\metax{search marked with regular expression}{M-s a C-M-s}
+\key{find next match}{M-,}
+\key{kill marked file but don't delete}{w}
+\key{hide marked files}{k}
+\key{copy marked files to another directory}{C}
+\key{move marked files to another directory}{R}
+\key{mark current file for deletion}{d}
+mark files containing PATTERN for deletion
+
+\metax{}{\% d <PATTERN>}
+\key{mark garbage files for deletion}{\% \&}
+mark auto-save files for deletion (see "file" above)
+
+\key{}{\#}
+\key{delete numerical backups}{.}
+\key{delete marked files}{D}
+manually edit listing with WDired
+
+\metax{}{M-x wdired-change-to-wdired-mode}
+quit WDired and commit the edits made to the listing
+
+\key{}{C-c C-c}
+\key{cancel WDired}{C-c ESC}
+\key{same as previous}{C-c C-[}
+list file names matching PATTERN
+
+\metax{}{M-x find-name-dired RET <PATTERN> RET}
+list files containing grep PATTERN
+
+\metax{}{M-x find-grep-dired RET <PATTERN> RET}
+list files containing REGEXP
+
+\metax{}{M-x find-lisp-find-dired RET <REGEXP> RET}
+\metax{mark files containing PATTERN}{\% g <PATTERN>}
+\metax{mark file names matching PATTERN}{\% m <PATTERN>}
+\key{same as previous}{* \%}
+\key{go to next marked file}{M-\}}
+\key{same as previous}{* C-n}
+\key{go to previous marked file}{M-\{}
+\key{same as previous}{* C-p}
+\key{mark executables}{* *}
+\key{mark symlinks}{* @}
+\key{mark directories}{* /}
+\key{quit}{q}
+ 
+{\headingfont dired-x}
+
+load extra Dired functionality
+
+\metax{}{M-x load-library RET dired-x RET}
+\key{mark extension}{* .}
+\key{list parent}{C-x C-j}
+\key{smart shell command}{M-!}
+relative symlink current file to FILE
+
+\metax{}{M-x dired-do-relsymlink <FILE> RET}
+\metax{relative symlink current file to FILE}{Y <FILE> RET}
+relative symlink files matching REGEXP to current file
+
+\metax{}{\%Y <REGEXP> RET}
+\key{open marked files}{F}
+\key{send file by email}{V}
+\key{hide uninteresting files}{M-o}
+\key{go to subdirectory listing in buffer}{M-G}
+ 
+{\headingfont tramp}
+
+open FILE in DIR on remote HOST
+
+\metax{}{C-x C-f /HOST:DIR/FILE}
+same but use secure copy (SCP)
+
+\metax{}{C-x C-f /scp:HOST:DIR/FILE}
+same but demand the use of SSH
+
+\metax{}{C-x C-f /ssh:HOST:DIR/FILE}
+same but demand version 1 of SSH
+
+\metax{}{C-x C-f /ssh1:HOST:DIR/FILE}
+list contents of DIR on remote HOST
+
+\metax{}{C-x C-f /HOST:DIR}
+\metax{same as previous}{C-x d /HOST:DIR}
+\key{start a remote shell at HOST}{M-x shell}
+ 
+{\headingfont spell check}
+
+\key{word}{M-\$}
+\metax{buffer}{M-x ispell-buffer}
+\metax{region}{M-x ispell-region}
+words and comments in source file
+
+\metax{}{M-x ispell-comments-and-strings}
+\key{quit}{q}
+\metax{resume suspended session}{M-x ispell-continue}
+edit word at point in buffer (see "recursive edit" above)
+
+\key{}{M-r}
+return to spell check by exiting recursive edit
+
+\key{}{C-M-c}
+\key{same as previous}{C-[ C-c}
+\key{use third suggested choice}{4}
+\key{use first suggested choice}{0}
+\key{quick help}{?}
+\key{continue}{SPC}
+\key{accept for this session}{a}
+\key{add to buffer local dictionary}{A}
+\key{replace word with typed version}{r}
+replace every occurrence of word with typed version
+
+\key{}{R}
+\key{suspend}{X}
+change default dictionary
+
+\metax{}{M-x ispell-change-dictionary}
+highlight misspellings as you type
+
+\metax{}{M-x flyspell-mode}
+highlight misspellings in source code
+
+\metax{}{M-x flyspell-prog-mode}
+\metax{highlight existing misspellings}{M-x flyspell-buffer}
+\key{next misspelling in buffer}{C-,}
+insert correction for current word from dictionary
+
+\key{}{C-.}
+choose second proposed correction for correct word
+
+\key{}{C-. C-.}
+propose correction for previous word from dictionary
+
+\key{}{C-;}
+use second proposed correction for previous word
+
+\key{}{C-; C-;}
+select correct word at or before point from a pop up menu
+
+\key{}{C-c \$}
+ 
+{\headingfont abbreviations}
+
+define "cpu" as "computer"
+
+\metax{}{cpu C-x a i g computer RET}
+\metax{same as previous}{computer C-3 C-x a g cpu RET}
+\metax{expand "cpu" to "computer"}{cpu C-x a e}
+\metax{same as previous}{cpu C-x a '}
+\key{same as previous}{cpu C-x '}
+\metax{automatically expand}{M-x abbrev-mode}
+\key{undo expansion}{C-/}
+\key{undo last expand}{C-x a u}
+\metax{insert "supercomputer"}{super M-' cpu C-x '}
+\key{define new mode-specific}{C-x a i l}
+\key{list all}{C-x a C-l}
+\key{edit all}{C-x a C-e}
+\metax{expand in region}{M-x expand-region-abbrevs}
+\metax{save}{M-x write-abbrev-file}
+\metax{open}{M-x read-abbrev-file}
+\metax{delete all}{M-x kill-all-abbrevs}
+ 
+{\headingfont composition}
+
+\metax{set to French characters}{C-\\ french-postfix RET}
+disable input method, subsequent re-enables
+
+\key{}{C-\\}
+\metax{help with current input method}{C-h C-\\ RET}
+\key{insert a letter E acute}{e '}
+\key{insert a letter E and a quote character}{e ' '}
+\key{insert a letter A grave}{a `}
+\key{insert a letter E grave}{e `}
+\key{insert a letter U grave}{u `}
+\key{insert a letter A circumflex}{a ^}
+\key{insert a letter E circumflex}{e ^}
+\key{insert a letter I circumflex}{i ^}
+\key{insert a letter O circumflex}{o ^}
+\key{insert a letter U circumflex}{u ^}
+\key{insert a letter C with cedilla}{c ,}
+\key{insert a letter C and comma}{c , ,}
+\key{insert a letter E umlaut}{e "}
+\key{insert a letter I umlaut}{i "}
+\key{insert a letter U umlaut}{u "}
+\key{insert an open quotation mark}{< <}
+\key{insert a closed quotation mark}{> >}
+change to Spanish characters
+
+\metax{}{C-x RET C-\\ spanish-prefix RET}
+\key{insert a letter I grave}{i `}
+\key{insert a letter O grave}{o `}
+\metax{insert a letter N with tilde}{n \char`\~}
+change to German characters
+
+\metax{}{C-x RET C-\\ german-postfix RET}
+\key{insert a letter A umlaut}{a e}
+\key{insert the letters A and E, no umlaut}{a e e}
+\key{insert a letter O umlaut}{o e}
+\key{insert the letters O and E, no umlaut}{o e e}
+\key{insert a letter U umlaut}{u e}
+\key{insert the letters U and E, no umlaut}{u e e}
+\key{insert the ligature eszett}{s z}
+\key{insert the letters S and Z}{s z z}
+ 
+{\headingfont coding}
+
+\metax{describe SYSTEM}{C-h C <SYSTEM> RET}
+\key{describe current system}{C-h C RET}
+\metax{display coding systems}{M-x list-coding-systems}
+ 
+{\headingfont environment}
+
+set VAR to VALUE in Emacs
+
+\metax{}{M-x setenv <VAR> RET <VALUE> RET}
+\metax{edit current value of VAR}{M-x setenv <VAR> RET M-p}
+\metax{unset VAR}{C-u M-x setenv <VAR> RET }
+\metax{show value of VAR}{M-x getenv <VAR> RET}
+\metax{show current variables}{M-x getenv TAB}
+\metax{list running processes in Emacs}{M-x list-processes}
+send SIGNAL to any PROCESS
+
+\metax{}{M-x signal-process <PROCESS> RET <SIGNAL>}
+ 
+{\headingfont shell}
+
+\key{run command}{M-!}
+\key{insert output of command}{C-u M-!}
+\key{set end point of region}{C-SPC}
+\key{send region to command}{M-|}
+\key{replace region with output of command}{C-u M-|}
+run command in the background asynchronously
+
+\key{}{M-\&}
+\key{new window}{M-x shell}
+\metax{new buffer}{C-u M-x shell RET RET}
+\metax{new buffer with NAME.}{C-u M-x shell RET <NAME> RET}
+\key{beginning of command line}{C-c C-a}
+go to command prompt and to the end of command
+
+\key{}{C-c C-e}
+redisplay buffer so prompt is at bottom (see "redisplay" above)
+
+\key{}{C-c C-e}
+forward command when looking at multi-command
+
+\key{}{C-c C-f}
+backwards command when looking at multi-command
+
+\key{}{C-c C-b}
+\key{kill word backward (see "word" above)}{C-c C-w}
+\key{same as previous}{M-DEL}
+\key{send "end of file" to the process}{C-c C-d}
+\key{send process interrupt}{C-c C-c}
+\key{stop the process}{C-c C-z}
+\key{quit the process}{C-c C-\\}
+\key{add newline to command}{C-c SPC}
+\key{same as previous}{C-q C-j}
+\key{list command history}{C-c C-l}
+\key{previous command}{M-p}
+\key{next command}{M-n}
+\key{search history backward}{M-r}
+\key{next history match backward}{C-c M-r}
+\key{history match forward}{C-c M-s}
+show beginning of output for last command
+
+\key{}{C-c C-r}
+\metax{save session transcript to FILE}{C-x C-w <FILE> RET}
+write output of last command to FILE
+
+\metax{}{C-c C-s <FILE> RET}
+append output of last command to FILE
+
+\metax{}{C-u C-c C-s <FILE> RET}
+ 
+{\headingfont shell script}
+
+\metax{start a script named file.sh}{C-x C-f file.sh RET}
+use shell script mode for current buffer
+
+\metax{}{M-x shell-script-mode}
+\metax{same as previous}{M-x sh-mode}
+\key{specify shell and insert header}{C-c :}
+\key{run the script}{C-c C-x}
+\key{execute region}{C-M-x}
+\key{same as previous}{C-[ C-x}
+\key{beginning of command}{M-a}
+\key{end of command}{M-e}
+\key{beginning of function}{C-M-a}
+\key{same as previous}{C-[ C-a}
+\key{end of function}{C-M-e}
+\key{same as previous}{C-[ C-e}
+\key{indent}{TAB}
+\key{newline and indent}{C-j}
+\key{use indentation level of current line}{C-c <}
+analyze buffer's indentation and show inconsistencies
+
+\key{}{C-c >}
+set indentation level for syntactic type at point
+
+\key{}{C-c =}
+\key{show indentation level at point}{C-c ?}
+\key{insert if statement}{C-c TAB}
+\key{insert for statement}{C-c C-f}
+\key{insert case statement}{C-c C-c}
+\key{insert syntax for temporary file}{C-c C-t}
+\key{insert syntax for function}{C-c (}
+ 
+{\headingfont executable}
+
+set interpreter command and arguments
+
+\metax{}{M-x executable-set-magic}
+make file a command to display itself
+
+\metax{}{M-x executable-self-display}
+\metax{interpret current file}{M-x executable-interpret}
+\key{go to next error}{C-x `}
+find path for COMMAND
+
+\metax{}{M-: M-( executable-find "COMMAND" RET}
+ 
+{\headingfont lisp}
+
+\key{beginning of defun}{C-M-a}
+\key{same as previous}{C-[ C-a}
+\key{end of defun}{C-M-e}
+\key{same as previous}{C-[ C-e}
+\key{forward list}{C-M-n}
+\key{same as previous}{C-[ C-n}
+\key{backward list}{C-M-p}
+\key{same as previous}{C-[ C-p}
+\key{down sexp (see "sexp" above)}{C-M-d}
+\key{same as previous}{C-[ C-d}
+\key{upward sexp}{C-M-u}
+\key{same as previous}{C-[ C-u}
+\metax{upward sexp and forward}{M-x up-list}
+\key{insert parens for sexp}{M-(}
+\key{transpose sexp}{C-M-t}
+\key{mark sexp}{C-M-SPC}
+\key{same as previous}{C-[ C-SPC}
+\key{run interpreter}{C-c C-z}
+\key{eval expression at point}{C-M-x}
+\key{same as previous}{C-[ C-x}
+\key{insert new comment}{M-;}
+\key{kill current comment}{C-u M-;}
+\key{narrow to current defun}{C-x n d}
+\key{widen}{C-x n w}
+ 
+{\headingfont emacs lisp}
+
+\key{evaluate expression before point}{C-x C-e}
+evaluate expression and insert result at point
+
+\metax{}{C-u C-x C-e}
+\key{evaluate current defun}{C-M-x}
+\key{same as previous}{C-[ C-x}
+\key{prompt for expression then evaluate}{M-:}
+eval expression and insert result at point
+
+\key{}{C-u M-:}
+\key{indent (see "indent" above)}{TAB}
+\key{same as previous}{C-i}
+indent line and expression for subsequent lines
+
+\key{}{C-u TAB}
+\key{same as previous}{C-u C-i}
+\key{indent expression after point}{C-M-q}
+\key{same as previous}{C-[ C-q}
+\key{pretty print expression after point}{C-u C-M-q}
+\key{complete symbol at point}{M-TAB}
+\key{same as previous}{C-M-i}
+\key{same as previous}{C-[ C-i}
+\metax{evaluate expressions in region}{M-x eval-region}
+\metax{evaluate buffer}{M-x eval-buffer}
+\metax{load FILE}{M-x load-file RET <FILE> RET}
+\metax{load current file}{M-x load-file RET RET}
+\metax{load library}{M-x load-libary}
+\metax{path of library}{M-x locate-library}
+\metax{go to LIBRARY}{M-x find-library <LIBRARY>}
+show all libraries on load-path
+
+\metax{}{M-x locate-library RET TAB}
+list definitions in library
+
+\metax{}{M-x apropos-libary RET <LIBRARY> RET}
+show library conflicts in load-path
+
+\metax{}{M-x list-load-path-shadows}
+\key{describe library}{C-h P}
+\key{find packages (see "finder" below)}{C-h p}
+permanently set a variable
+
+\metax{}{M-x customize-set-variable}
+temporarily set VAR to VALUE
+
+\metax{}{M-x set-variable RET <VAR> RET <VALUE> RET}
+scope VAR to current buffer
+
+\metax{}{M-x make-local-variable RET <VAR> RET}
+make VAR global for current buffer
+
+\metax{}{M-x kill-local-variable RET <VAR> RET}
+byte compile current FILE
+
+\metax{}{M-x byte-compile-file RET <FILE> RET}
+\metax{same as previous}{M-x byte-compile-file RET RET}
+byte compile every file, recursively
+
+\metax{}{M-x byte-recompile-directory}
+byte compile every file, recursively
+
+\metax{}{M-0 M-x byte-recompile-directory}
+\metax{byte compile defun}{M-x compile-defun}
+go to source code for compile error (see "compile" below)
+
+\key{}{C-x `}
+go to definition of FUNCTION
+
+\metax{}{M-x find-function RET <FUNCTION> RET}
+go to definition of function at point
+
+\metax{}{M-x find-function RET RET}
+go to definition of VARIABLE
+
+\metax{}{M-x find-variable RET <VARIABLE> RET}
+go to definition of variable at point
+
+\metax{}{M-x find-variable RET RET}
+start Emacs Lisp mode if not started
+
+\metax{}{M-x emacs-lisp-mode}
+\metax{validate coding style}{M-x checkdoc}
+and spell check comments and documentation strings
+
+\metax{}{M-x checkdoc-ispell}
+\metax{enable debugger on error}{M-x toggle-debug-on-error}
+\metax{enable debugger on quit}{M-x toggle-debug-on-quit}
+ 
+{\headingfont elisp interaction}
+
+evaluate expressions interactively
+
+\metax{}{M-x lisp-interaction-mode}
+evaluate sexp before point and insert results on next line
+
+\key{}{C-j}
+evaluate current defun (see "emacs lisp" above)
+
+\key{}{C-M-x}
+\key{same as previous}{C-[ C-x}
+ 
+{\headingfont debug elisp}
+
+change whether to start session on error
+
+\metax{}{M-x toggle-debug-on-error}
+change whether C-g starts session
+
+\metax{}{M-x toggle-debug-on-quit}
+debug FUNCTION
+
+\metax{}{M-x debug-on-entry RET <FUNCTION> RET}
+\key{help}{h}
+\key{move down}{SPC}
+\key{move down}{C-n}
+\key{move 5 down}{5 SPC}
+\key{move 2 up}{ 2 SPC}
+\key{move up}{C-p}
+\key{backward 2 lines}{2 C-p}
+\key{go up level in expression}{TAB}
+\key{go down lower level}{S-TAB}
+visit help or source location for thing at point
+
+\key{}{RET}
+complete evaluation level at current point
+
+\key{}{c}
+\key{quit}{q}
+\key{step into}{d}
+\key{set breakpoint}{b}
+\key{unset breakpoint}{u}
+\key{set breakpoint and continue}{j}
+\key{prompt for return value then continue}{r}
+\key{prompt for expression then evaluate}{e}
+prompt for expression then evaluate and record it
+
+\key{}{R}
+\key{list functions debugged on entry}{l}
+don't debug FUNCTION
+
+\metax{}{M-x cancel-debug-on-entry <FUNCTION> RET}
+don't debug for any function
+
+\metax{}{M-x cancel-debug-on-entry RET RET}
+ 
+{\headingfont source-level debugger}
+
+turn on instrumentation for current function definition
+
+\metax{}{M-x edebug-defun}
+\key{same as previous}{C-u C-M-x}
+turn off instrumentation for current function definition
+
+\key{}{C-M-x}
+\key{step expression in source}{SPC}
+from any buffer, step into expression in source
+
+\key{}{C-x X SPC}
+\key{slowly step}{t}
+\key{step fast}{T}
+\key{stop stepping}{S}
+\key{step to next expression}{n}
+\key{step in}{i}
+\key{step out}{o}
+\key{step forward}{f}
+\key{show last result again in minibuffer}{r}
+\key{set breakpoint}{b}
+\key{unset breakpoint}{u}
+\key{unset breakpoint}{C-c C-d}
+set conditional break on result of EXPRESSION
+
+\metax{}{x <EXPRESSION> RET}
+\key{move to next breakpoint}{B}
+\key{continue until next breakpoint}{g}
+\key{continue to next breakpoint}{B}
+\key{continue to breakpoints slowly}{c}
+\key{continue to breakpoints fast}{C}
+\key{stop continuing}{S}
+\key{stop debugging and finish}{G}
+\key{visit buffer before running Edebug}{P}
+\key{visit buffer before running Edebug}{v}
+momentarily visit buffer before running Edebug
+
+\key{}{p}
+\key{move back to current point in source}{w}
+\key{move back to current point in source}{C-c C-l}
+from any buffer, move back to current point in source
+
+\key{}{C-x X w}
+\key{help}{?}
+\key{list bindings starting with C-x X}{C-x X C-h}
+\key{prompt for expression then evaluate}{e}
+\key{show backtrace}{d}
+display frequencies in comments for each line for current function
+
+\key{}{=}
+\key{abort}{a}
+\key{abort}{C-]}
+\key{quit}{q}
+\key{same as previous}{C-x X q}
+\key{quit}{Q}
+ 
+{\headingfont finder}
+
+\key{list keywords}{C-h p}
+describe LIBRARY
+
+\metax{}{M-x finder-commentary RET <LIBRARY> RET}
+\key{help}{?}
+\key{move down}{n}
+\key{move up}{p}
+for keyword at point, list Emacs Lisp libraries
+
+\key{}{RET}
+for package at point, show commentary for Emacs
+
+\key{}{RET}
+\key{same as previous}{f}
+\key{same as previous}{SPC}
+\key{back to beginning of package directory}{d}
+\key{quit}{q}
+ 
+{\headingfont C}
+
+\key{help}{C-h m}
+\metax{version of mode}{M-x c-version}
+\key{show syntax information of current point}{C-c C-s}
+\metax{use gnu coding style}{C-c . gnu RET}
+use Kernighan and Ritchie coding style
+
+\metax{}{C-c . k\&r RET}
+\metax{use Linux kernel coding style}{C-c . linux RET}
+\metax{use BSD coding style}{C-c . bsd RET}
+add index menu to menu bar for current file
+
+\metax{}{M-x imenu-add-menubar-index}
+\metax{run compiler (see "compile" below)}{M-x compile}
+\metax{rerun compiler}{M-x recompile}
+highlight problematic syntax in current file
+
+\metax{}{M-x cwarn-mode}
+highlight problematic syntax for all source files
+
+\metax{}{M-x global-cwarn-mode}
+highlight preprocessor conditionals
+
+\metax{}{M-x cpp-highlight-buffer}
+fold conditional preprocessor blocks
+
+\metax{}{M-x hide-ifdef-mode}
+\key{indent}{TAB}
+\key{indent}{C-i}
+\key{go to indentation at beginning of line}{M-m}
+\key{newline and indent}{C-j}
+toggle automatic indentation with "electric" characters
+
+\key{}{C-c C-l}
+\key{toggle automatic newlines}{C-c C-a}
+\key{comment region}{C-c C-c}
+\metax{uncomment region}{C-u C-c C-c}
+\metax{comment region with 3 asterisks }{C-u 3 C-c C-c}
+\metax{comment region}{C-1 C-c C-c}
+remove 1 asterisks from comments in region
+
+\metax{}{M-- C-c C-c}
+remove 3 asterisks from comments in region
+
+\metax{}{M-- 3 C-c C-c}
+\key{fill comment or string literal}{M-q}
+move to end of current or next word of identifier or field
+
+\key{}{M-f}
+move to beginning of current or next word of identifier or field
+
+\key{}{M-b}
+mark to end of current word or next word of identifier or field
+
+\key{}{M-@}
+toggle whether word motion understands mixed-case identifiers
+
+\key{}{C-c C-w}
+move to end of operator, ident, string, paren, brace
+
+\key{}{C-M-f}
+move to beginning of operator, ident, string, paren, brace
+
+\key{}{C-M-b}
+\key{beginning of statement}{M-a}
+\key{end of statement}{M-e}
+\key{beginning of function definition}{C-M-a}
+\key{end of function definition}{C-M-e}
+\key{beginning of next function}{M-- C-M-a}
+\key{end of previous function}{M-- C-M-e}
+\key{narrow to function definition}{C-x n d}
+\key{widen}{C-x n w}
+\key{mark current function}{C-M-h}
+mark to end of operator, ident, string, paren, brace
+
+\key{}{C-M-@}
+\metax{indent lines in region properly}{C-x C-x TAB}
+\key{same as previous}{C-M-\\}
+\metax{indent buffer properly}{C-x h C-M-\\ C-u C-SPC}
+\key{indent current function properly}{C-c C-q}
+\key{align backslash characters in region}{C-c C-\\}
+\metax{delete backslash characters in region}{C-u C-c C-\\}
+set backslash column to 48
+
+\metax{}{M-x set-variable RET c-backslash-column 48 RET}
+beginning of next preprocessor conditional
+
+\key{}{C-c C-n}
+beginning of previous preprocessor conditional
+
+\key{}{C-c C-p}
+beginning of current preprocessor conditional
+
+\key{}{C-c C-u}
+\metax{end of preprocessor conditional}{M-- C-c C-u}
+hungrily delete all whitespace including newlines backwards
+
+\key{}{C-c DEL}
+\key{same as previous}{C-c C-DEL}
+\key{merge current line with previous}{M-^}
+merge next line with current (see "line" above)
+
+\key{}{C-u M-^}
+\key{same as previous}{C-n M-^}
+hungrily delete all whitespace including newlines forwards
+
+\key{}{C-c C-d}
+always hungrily delete whitespace
+
+\metax{}{M-x c-toggle-hungry-state}
+show expansion of macros for region in other window
+
+\key{}{C-c C-e}
+don't indent mid-line
+
+\metax{}{M-x set-variable RET c-tab-always-indent RET nil}
+ 
+{\headingfont compile}
+
+\metax{execute a compilation command}{M-x compile}
+\metax{execute last compilation command}{M-x recompile}
+\key{kill}{C-c C-k}
+\key{go to source code for next error}{C-x `}
+\key{go to source code for previous error}{M-- C-x `}
+\key{visit compilation buffer}{C-x o}
+\key{next error}{M-n}
+\key{previous error}{M-p}
+\key{errors for next file}{M-\}}
+\key{errors for previous file}{M-\{}
+go to source code for error specified at point
+
+\key{}{RET}
+\key{same as previous}{C-c C-c}
+\key{recompile}{g}
+\key{prompt for command then recompile}{C-u g}
+ 
+{\headingfont hide}
+
+start Hide Show minor mode if not started already
+
+\metax{}{M-x hs-minor-mode}
+\key{toggle current block}{C-c @ C-c}
+\key{hide current block}{C-c @ C-h}
+\key{show current block}{C-c @ C-s}
+\metax{hide all}{C-c @ C-M-h}
+\metax{show all}{C-c @ C-M-s}
+\metax{show blocks should VAR be defined}{C-c @ d <VAR>}
+\metax{hide blocks should VAR be undefined}{C-c @ u <VAR>}
+ 
+{\headingfont tag}
+
+index .c and .h files in current directory
+
+\metax{}{M-! etags *.[ch]}
+set index file for current buffer
+
+\metax{}{C-u M-x visit-tags-table}
+\metax{globally set index file}{M-x visit-tags-table}
+\key{go to definition of symbol in index}{M-.}
+go to definition for a regular expression in index
+
+\key{}{C-M-.}
+\key{go to next definition}{C-u M-.}
+\key{go to previous definition}{M-- M-.}
+\key{return back to before you started}{M-*}
+go to entry for regular expression in index
+
+\metax{}{M-x tags-search}
+\key{go to next entry in index}{M-,}
+search and replace for regular expression
+
+\metax{}{M-x tags-query-replace}
+\key{complete tag at point}{M-TAB}
+\key{same as previous}{C-M-i}
+\key{same as previous}{C-[ C-i}
+complete language symbol, avoid tags, at point
+
+\key{}{C-u M-TAB}
+\metax{for a source file}{M-x list-tags}
+lists tags matching PATTERN
+
+\metax{}{M-x tags-apropos RET <PATTERN> RET}
+\metax{forget all previous}{M-x tags-reset-tags-tables}
+\metax{choose tags file to use}{M-x select-tags-table}
+ 
+{\headingfont make}
+
+\metax{new}{C-x C-f Makefile RET}
+\metax{new}{C-x C-f foo.mk RET}
+\key{next target}{M-n}
+\key{previous target}{M-p}
+\key{backslash region}{C-c C-\\}
+\key{comment region}{C-c C-c}
+\key{list macros and targets}{C-c C-b}
+\key{list up-to-date status for targets}{C-c C-u}
+ 
+{\headingfont diff}
+
+compare OLD file with NEW file
+
+\metax{}{M-x diff RET <OLD> RET <NEW> RET}
+compare files but prompt for Diff switches
+
+\metax{}{C-u M-x diff}
+compare buffer with file on disk
+
+\metax{}{M-x diff-buffer-with-file}
+compare current file with backup on disk
+
+\metax{}{M-x diff-backup}
+\metax{same as previous}{M-x diff RET RET}
+start Diff Mode if not already started for a file
+
+\metax{}{M-x diff-mode}
+go to corresponding location in target (new) file
+
+\key{}{C-c C-c}
+go to corresponding location in source (old) file
+
+\metax{}{C-u C-c C-c}
+always go to corresponding location in source file
+
+\metax{}{C-u C-u C-c C-c}
+\key{apply current hunk}{C-c C-a}
+\metax{revert current hunk}{C-u C-c C-a}
+\key{test current hunk}{C-c C-t}
+\key{test current hunk in reverse}{C-c C-t}
+\key{move start of next hunk}{M-n}
+\key{move to start of previous hunk}{M-p}
+move to start of next file in multiple file patch
+
+\key{}{M-\}}
+move to start of previous file in multiple file patch
+
+\key{}{M-\{}
+\key{narrow to hunk}{C-c C-n}
+\key{widen}{C-x n w}
+\metax{narrow to file of multiple file patch}{C-u C-c C-n}
+\key{kill the current hunk}{M-k}
+kill the current file in multiple file patch
+
+\key{}{M-K}
+\key{split the hunk in two}{C-c C-s}
+\key{reverse direction of entire patch}{C-c C-r}
+\metax{reverse direction of patch in region}{C-u C-c C-r}
+new change log entry using context of current location
+
+\key{}{C-x 4 a}
+convert the entire buffer from unified to context format
+
+\key{}{C-c C-u}
+convert the entire buffer from context to unified format
+
+\metax{}{C-u C-c C-u}
+\key{convert the entire buffer}{C-c C-u}
+\key{start ediff session}{C-c C-e}
+ 
+{\headingfont version control (vc)}
+
+\key{list bindings for prefix}{C-x v C-h}
+\key{register file}{C-x v i}
+check in or out, depending on the current state
+
+\key{}{C-x v v}
+\key{finish editing log for check in}{C-c C-c}
+\metax{check in or out a specific revision}{C-u C-x v v}
+\metax{open past revision in new window}{C-x v \char`\~}
+\key{diff with current revision}{C-x v =}
+\metax{diff with specific revision}{C-u C-x v =}
+\key{show log}{C-x v l}
+\key{undo checkout}{C-x v u}
+\key{delete the latest revision}{C-x v c}
+annotate file by each line showing when added and by whom
+
+\key{}{C-x v g}
+\key{show checked out files}{C-x v d}
+tag all the files in directory with NAME
+
+\metax{}{C-x v s RET <NAME> RET}
+tag files and create branch
+
+\metax{}{C-u C-x v s RET <NAME> RET}
+recursively checkout files for a snapshot
+
+\metax{}{C-x v r <NAME>}
+\key{update ChangeLog (see "changelog" below)}{C-x v a}
+\key{merge two revisions}{C-x v m}
+\key{insert revision header keyword}{C-x v h}
+start ediff (see "ediff" below) on file
+
+\metax{}{M-x vc-resolve-conflicts}
+ 
+{\headingfont changelog}
+
+start new entry using context of current file
+
+\key{}{C-x 4 a}
+\key{start new entry in current log file}{C-x 4 a}
+\key{insert previous log from version control}{C-c C-p}
+\key{fill paragraph following syntax rules}{M-q}
+merge current with log FILE
+
+\metax{}{M-x change-log-merge RET <FILE> RET}
+\key{generate entries from version control}{C-x v a}
+ 
+{\headingfont merge conflict}
+
+\metax{start Smerge Mode if not started}{M-x smerge-mode}
+\key{move to next}{C-c ^ n}
+\key{move to previous}{C-c ^ p}
+\key{keep base}{C-c ^ b}
+\key{keep mine}{C-c ^ m}
+\key{keep other}{C-c ^ o}
+\key{keep what is under point}{C-c ^ RET}
+\key{keep all}{C-c ^ a}
+\key{combine current with next}{C-c ^ c}
+\key{auto resolve}{C-c ^ r}
+\metax{auto resolve entire buffer}{M-x smerge-resolve-all}
+ 
+{\headingfont grep}
+
+show matches in FILES for REGEXP
+
+\metax{}{M-x grep RET <REGEXP> SPC <FILES> RET}
+show matches in FILES for REGEXP
+
+\metax{}{M-x lgrep RET <REGEXP> RET <FILES> RET}
+show matches in all C files
+
+\metax{}{M-x lgrep RET <REGEXP> RET RET}
+\metax{same as previous}{M-x lgrep RET <REGEXP> RET ch RET}
+show matches in C source files
+
+\metax{}{M-x lgrep RET <REGEXP> RET c RET}
+show matches in header files
+
+\metax{}{M-x lgrep RET <REGEXP> RET h RET}
+show matches in ChangeLog files
+
+\metax{}{M-x lgrep RET <REGEXP> RET l RET}
+show matches in Make files
+
+\metax{}{M-x lgrep RET <REGEXP> RET m RET}
+show matches in TeX files
+
+\metax{}{M-x lgrep RET <REGEXP> RET tex RET}
+show matches in HTML files
+
+\metax{}{M-x lgrep RET <REGEXP> RET *.html RET}
+extended regular expressions
+
+\metax{}{M-x egrep RET <REGEXP> RET <FILES> RET}
+case insensitive matching
+
+\metax{}{M-x igrep RET <REGEXP> RET <FILES> RET}
+show matches in entire directory tree
+
+\metax{}{M-x grep-find RET <REGEXP> RET}
+same, but HTML files
+
+\metax{}{M-x rgrep RET <REGEXP> RET *.html RET RET}
+same, but C files
+
+\metax{}{M-x rgrep RET <REGEXP> RET RET RET}
+same, but Emacs Lisp files
+
+\metax{}{M-x rgrep RET <REGEXP> RET el RET RET}
+\key{visit next match}{C-x `}
+\key{visit next match}{M-g M-n}
+\key{visit next match}{M-g n}
+\key{visit the previous match}{M-- C-x `}
+\metax{visit the second next match}{C-u 2 C-x `}
+\metax{visit the fifth next match}{C-u 5 C-x `}
+\key{visit the first match}{C-u C-x `}
+\key{visit previous match}{M-g p}
+\key{visit previous match}{M-g M-p}
+\key{move to buffer with listed matches}{C-x o}
+\key{stop}{C-c C-k}
+\key{move to next match}{TAB}
+\key{move to previous match}{S-TAB}
+\key{go to match in file}{RET}
+\key{go to match in file}{C-c C-c}
+\key{show next match in other window}{M-n}
+\key{show next match in other window}{n}
+\key{show previous match in other window}{M-p}
+\key{show previous match in other window}{p}
+\key{scroll down}{SPC}
+\key{scroll up}{DEL}
+\key{move to start of matches in next file}{M-\}}
+\key{move to start of matches in next file}{\}}
+\key{move to end of matches in previous file}{M-\{}
+\key{move to end of matches in previous file}{\{}
+automatically show match in other window with follow mode
+
+\key{}{C-c C-f}
+\key{disable follow mode}{C-c C-f}
+\metax{(see "directory" above)}{M-x find-grep-dired}
+ 
+{\headingfont locate}
+
+show files matching PATTERN
+
+\metax{}{M-x locate RET <PATTERN> RET}
+same, but also match REGEXP
+
+\metax{}{M-x locate-with-filter RET <PATTERN> RET <REGEXP>}
+\metax{show}{M-x locate-with-filter}
+\key{next matched file}{C-n}
+\key{previous matched file}{C-p}
+\key{visit current file at}{RET}
+\key{open file in other window}{C-o}
+open current file in dired (see "directory" above)
+
+\key{}{V}
+ 
+{\headingfont calendar}
+
+\metax{view previous, current and next months}{M-x calendar}
+\key{help}{C-h m}
+\key{user manual}{?}
+\key{one day forward}{C-f}
+\key{one day backward}{C-b}
+\key{seven days forward}{7 C-f}
+\key{same as previous}{C-7 C-f}
+\key{one week forward}{C-n}
+\key{one week backward}{C-p}
+\key{fifty-two weeks forward}{52 C-n}
+\metax{same as previous}{C-5 C-2 C-n}
+\key{one month forward}{M-\}}
+\key{one month backward}{M-\{}
+\key{twelve months forward}{12 M-\}}
+\metax{same as previous}{M-1 M-2 M-\}}
+\key{one year forward}{C-x ]}
+\key{one year backward}{C-x [}
+\key{four years forward}{4 C-x ]}
+\key{same as previous}{C-u C-x ]}
+\key{beginning of week}{C-a}
+\key{end of week}{C-e}
+\key{beginning of the month}{M-a}
+\key{end of the month}{M-e}
+\key{beginning of year}{M-<}
+\key{end of year}{M->}
+\key{scroll month backward}{<}
+\key{scroll month forward}{>}
+\key{scroll forward 3 months}{C-v}
+\key{scroll backward 3 months}{M-v}
+how many days three months from now
+
+\metax{}{C-SPC 3 M-\} M-=}
+go to February 29 of current year
+
+\metax{}{g d RET Feb RET 29 RET}
+\metax{go to May}{o RET May RET}
+\metax{go to sixtieth day of current year}{g D RET 60 RET}
+\metax{go to fifth week of current year}{g w RET 5 RET}
+\key{back to today}{.}
+\key{print day of year}{p d}
+\key{print week of year}{p c}
+\key{holidays on day}{h}
+\key{holidays in next 3 months}{a}
+\key{mark holidays}{x}
+\key{unmark holidays}{u}
+\key{sunrise/sunset}{S}
+\key{lunar phases}{M}
+mark all diary entries (see "diary" later)
+
+\key{}{m}
+\key{unmark diary entries}{u}
+\key{diary entries for day}{d}
+\key{diary entries for day}{d}
+\key{insert single diary entry}{i d}
+\key{insert weekly entry}{i w}
+\key{insert monthly entry}{i m}
+\key{insert annual entry}{i y}
+\key{insert anniversary}{i a}
+\metax{repeat entry every ten days}{i c 10 RET}
+\metax{making a two-day diary entry}{C-SPC C-f i b}
+\metax{making a week-long diary entry}{C-SPC C-n i b}
+\metax{making a two week-long diary entry}{C-SPC 2 C-n i b}
+\key{open diary}{s}
+\key{Export month to an HTML file}{H m}
+\key{Export all months in year to HTML files}{H y}
+\key{Export month to TeX file}{t m}
+Export month in landscape display to TeX file
+
+\key{}{t M}
+\key{Export week in to TeX file}{t w 1}
+\key{Export year to TeX file}{t y}
+\key{quit}{q}
+ 
+{\headingfont ediff}
+
+\key{compare two files}{M-x ediff}
+\metax{compare two buffers}{M-x ediff-buffers}
+compare regions by lines in two buffers
+
+\metax{}{M-x ediff-regions-linewise}
+compare regions by word in two buffers
+
+\metax{}{M-x ediff-regions-wordwise}
+\metax{compare with backup file}{M-x ediff-backup}
+\metax{compare buffer with file}{M-x ediff-current-file}
+compare in version control (see "version control" above)
+
+\metax{}{M-x ediff-revision}
+\key{help}{?}
+\key{toggle vertical and horizontal display}{|}
+\key{toggle highlighting mode}{h}
+\key{next difference}{n}
+\key{next difference}{SPC}
+\key{previous difference}{p}
+\key{use a}{a}
+\key{use b}{b}
+\key{undo in a}{r a}
+\key{undo in b}{r b}
+\key{quit}{q}
+ 
+{\headingfont browse-url}
+
+\metax{same as previous}{M-x browse-url}
+\key{same as previous}{M-x ffap}
+visit URL at point in Web browser
+
+\metax{}{M-x browse-url-at-point}
+\metax{same as previous}{M-x browse-url RET RET}
+ 
+{\headingfont HTML}
+
+\key{help}{C-h m}
+\key{view current file in Web browser}{C-c C-v}
+toggle to view in Web browser on each save
+
+\key{}{C-c C-s}
+toggle inserting of non-ASCII characters as entities
+
+\key{}{C-c 8}
+\key{toggle invisibility of tags}{C-c TAB}
+add index menu to menu bar for current file
+
+\metax{}{M-x html-imenu-index}
+turn on XHTML tags
+
+\metax{}{M-x set-variable RET sgml-xml-mode RET t RET}
+use upperacase tags
+
+\metax{}{M-x set-variable RET skeleton-transformation RET upcase RET}
+\key{delete current tag}{C-c C-d}
+\key{delete current tag}{C-c DEL}
+\metax{delete next 4 tags}{C-u C-c C-d}
+\key{skip forward tag}{C-c C-f}
+\metax{skip forward 5 tags}{C-u 5 C-c C-f}
+\key{skip backward tag}{C-c C-f}
+\metax{skip backward 4 tags}{C-u C-c C-f}
+\metax{start file with TITLE}{C-c C-t html RET <TITLE> RET}
+\metax{same as previous}{M-x auto-insert RET <TITLE> RET}
+\key{insert level one heading}{C-c 1}
+\key{insert level two heading}{C-c 2}
+\key{insert level three heading}{C-c 3}
+\key{insert level four heading}{C-c 4}
+\key{insert level five heading}{C-c 5}
+\key{insert level six heading}{C-c 6}
+\key{insert paragraph tag}{C-c RET}
+\key{close paragraph tag}{C-c /}
+\key{insert line break tag}{C-c C-j}
+\key{insert horizontal rule}{C-c C-c -}
+\key{insert link}{C-c C-c h}
+\key{insert page anchor}{C-c C-c n}
+\key{insert image}{C-c C-c i}
+\key{insert radio buttons}{C-c C-c r}
+\key{insert ordered list}{C-c C-c o}
+\key{insert unordered list}{C-c C-c u}
+\key{insert list item}{C-c C-c i}
+\key{close list item}{C-c /}
+\key{insert bold tag}{C-u M-o b}
+\key{insert italic tag}{C-u M-o i}
+\key{insert bold tag}{C-u M-o b}
+\key{insert underline tag}{C-u M-o i}
+\key{insert attributes to current tag}{C-c C-a}
+\metax{insert emphasis tag}{C-c C-t em RET}
+\metax{insert strong emphasis tag}{C-c C-t strong RET}
+\metax{insert source code tag}{C-c C-t code RET}
+\metax{insert definition tag}{C-c C-t dfn RET}
+\metax{insert keyboard text tag}{C-c C-t kbd RET}
+\metax{insert sample text tag}{C-c C-t samp RET}
+\metax{insert variable text tag}{C-c C-t var RET}
+\metax{insert preformatted text tag}{C-c C-t pre RET}
+insert span tag for text of CLASS
+
+\metax{}{C-c C-t span RET class RET <CLASS> RET}
+insert definition list with TERM
+
+\metax{}{C-c C-t dl RET <TERM> RET RET}
+insert 1-by-1 table
+
+\metax{}{C-c C-t table RET h RET d RET DEL RET}
+prompt for tag name and possible attributes, then insert
+
+\key{}{C-c C-t}
+prompt for tag, and surround next 3 words with tag
+
+\metax{}{C-u 3 C-c C-t}
+prompt for tag, and surround next word with tag
+
+\metax{}{C-1 C-c C-t}
+prompt for tag, and surround region with tag
+
+\metax{}{M-- C-c C-t}
+\key{describe current tag}{C-c ? RET}
+\metax{insert non-breaking space entity}{C-c C-n M-SPC}
+\metax{insert a quoted ampersand}{C-c C-n \&}
+\key{insert a quoted less than character}{C-c C-n <}
+\key{insert a quoted greater than character}{C-c C-n >}
+\key{insert comment}{M-;}
+\key{kill comment}{C-u M-;}
+display hierarchy of tags for point
+
+\metax{}{M-x sgml-show-context}
+\metax{check markup with external tool}{M-x sgml-validate}
+ 
+{\headingfont outline}
+
+\metax{set major mode}{M-x outline-mode}
+\metax{set minor mode}{M-x outline-minor-mode}
+\metax{help}{C-h f outline-mode}
+\key{insert heading of current level}{C-c RET}
+\key{show all}{C-c C-a}
+\key{hide all}{C-c C-t}
+\key{show body}{C-c C-e}
+\key{hide body}{C-c C-c}
+\key{show all under current heading}{C-c C-s}
+\key{hide all under current heading}{C-c C-d}
+\key{show headings under current heading}{C-c C-i}
+\key{same as previous}{C-c TAB}
+\key{show all headings under current heading}{C-c C-k}
+\key{hide all headings under current heading}{C-c C-q}
+\key{hide leaves}{C-c C-l}
+\key{hide all others except current}{C-c C-o}
+\key{forward heading}{C-c C-n}
+\key{backward heading}{C-c C-p}
+\metax{forward 4 headings}{C-u C-c C-n}
+\key{forward to same level heading}{C-c C-f}
+\key{backward to same level heading}{C-c C-b}
+\metax{forward 4 headings at same level}{C-u C-c C-f}
+\key{up to parent heading}{C-c C-u}
+\metax{up 4 parent headings}{C-u 4 C-c C-u}
+\key{move current subtree down}{C-c C-v}
+\key{move current subtree up}{C-c C-^}
+\key{mark current subtree}{C-c @}
+increase heading level in current subtree
+
+\key{}{C-c C-<}
+decrease heading level in current subtree
+
+\key{}{C-c C->}
+ 
+{\headingfont SQL}
+
+\metax{help}{M-x sql-help}
+\metax{open DB2 interactive buffer}{M-x sql-db2}
+\metax{open DB2 interactive buffer}{M-x sql-informix}
+\metax{open Informix interactive buffer}{M-x sql-ingres}
+\metax{open InterBase interactive buffer}{M-x sql-interbase}
+\metax{open RELEX Linter interactive buffer}{M-x sql-linter}
+\metax{open Microsoft SQL interactive buffer}{M-x sql-ms}
+\metax{open MySQL interactive buffer}{M-x sql-mysql}
+\metax{open Oracle interactive buffer}{M-x sql-oracle}
+\metax{open PostgreSQL interactive buffer}{M-x sql-postgres}
+\metax{open SOLID interactive buffer}{M-x sql-solid}
+\metax{open SQLite interactive buffer}{M-x sql-sqlite}
+\metax{open Sybase interactive buffer}{M-x sql-sybase}
+switch to current interactive
+
+\metax{}{M-x sql-product-interactive}
+turn on SQL mode if not already started
+
+\metax{}{M-x sql-mode}
+set text buffer's interactive buffer
+
+\metax{}{M-x sql-set-sqli-buffer RET *SQL* RET}
+\key{send region to interactive buffer}{C-c C-r}
+\key{send paragraph to interactive buffer}{C-c C-c}
+send buffer contents to interactive buffer
+
+\key{}{C-c C-b}
+ 
+{\headingfont calc}
+
+\key{start/stop calc}{C-x * c}
+\key{same as previous}{M-x calc}
+\key{quit}{q}
+\key{start/stop}{C-x * *}
+\key{other window}{C-x * o}
+\key{help for help}{h ?}
+\key{help shown in minibuffer}{? ?}
+\key{all help shown in buffer}{h h}
+\key{tutorial}{h t}
+\key{info manual}{h i}
+\key{command name}{h c}
+\key{command description}{h k}
+\key{command summary}{h s}
+\key{put on stack}{RET}
+\key{same as previous}{SPC}
+\key{swap top stack items}{TAB}
+\key{cycle all stack items}{M-TAB}
+\key{same as previous}{C-M-i}
+\key{same as previous}{C-[ C-i}
+\key{delete from stack}{DEL}
+\key{delete all from stack}{M-0 DEL}
+\key{move point to top of the stack}{o}
+\key{scroll right}{>}
+\key{scroll left}{<}
+\key{add}{+}
+\key{subtract}{}
+\key{multiply}{*}
+\key{divide}{/}
+\key{integer divide}{\\}
+\key{raise number to power}{^}
+\key{root}{I ^}
+\key{square root}{Q}
+\key{negative}{n}
+\key{reciprocal}{\&}
+\key{enter algebraic expression}{'}
+\key{re-evaluate}{=}
+\key{fraction mode}{m f}
+\key{change back to floating point decimal}{m f}
+\metax{enter two-thirds (2/3) as a fraction}{' 2 : 3 RET}
+\metax{divide 3 from 2 as an "evaluate-to"}{' 2 / 3 = > RET}
+\metax{same as previous}{' evalto ( 2 / 3 RET}
+\key{show 2/3 as a fraction}{m f =}
+\key{show 2/3 as a decimal}{m f =}
+\key{convert an integer to a float}{f}
+\key{floor a float to an integer}{F}
+\key{round a float to the closest integer}{R}
+\key{execute calc named command}{x}
+\metax{find hypotenuse of two sides}{3 4 RET x hypot}
+\metax{find hypotenuse of two sides}{' hypot(3,4)}
+\key{find hypotenuse of two sides}{3 4 f h}
+\key{algebraic variable or expression}{'}
+\key{previous stack entry}{' \$}
+\key{second previous stack entry}{' \$\$}
+\key{third previous stack entry}{' \$3}
+\key{store top of stack to VAR}{s s <VAR>}
+\key{store top of stack to VAR and delete}{s t <VAR>}
+\key{recall VAR to stack}{s r <VAR>}
+\key{unstore VAR to stack}{s u <VAR>}
+store top of stack to VAR, evaluate stack, and unstore
+
+\key{}{s l <VAR>}
+\key{see list of current variables}{s r TAB}
+\key{evaluate variables}{=}
+\key{first trail item}{t [}
+\key{last trail item}{t ]}
+\key{forward trail item}{t n}
+\key{backward trail item}{t p}
+\key{current trail item}{t h}
+\key{yank item from trail to stack}{t y}
+\key{visit trail}{t i}
+\key{leave trail}{t o}
+\key{toggle algebra mode}{m a}
+\key{leading zero notation}{d z}
+\key{normal notation}{d n}
+\key{scientific notation}{d s}
+\key{scientific notation}{d s}
+\key{engineering notation}{d e}
+\key{fix to 3 digits after floating point}{d f 3}
+\key{3 significant digits and normal notation}{M-3 d n}
+3 significant digits in scientific notation
+
+\key{}{M-3 d s}
+3 significant digits in engineering notation
+
+\key{}{M-3 d e}
+toggle grouping digits in sets of 3 with commas
+
+\key{}{d g}
+\key{group in sets of 5}{M-5 d g}
+group floating point in sets of 3 with commas
+
+\key{}{M-- d g}
+\metax{group floating point in sets of 5}{M-- M-5 d g}
+change display mode without updating stack
+
+\key{}{H d}
+manually refresh stack with current display mode
+
+\key{}{H d SPC}
+\key{enter in binary}{2\#}
+\key{enter in octal}{8\#}
+\key{enter in hexadecimal}{16\#}
+\key{enter in decimal}{10\#}
+\key{change display radix}{d r}
+\key{display in binary}{d r 2}
+\key{same as previous}{d 2}
+\key{display in octal}{d r 8}
+\key{same as previous}{d 8}
+\key{display in hexadecimal}{d r 16}
+\key{same as previous}{d 6}
+\key{display in decimal}{d r 10}
+\key{same as previous}{d 0}
+\key{change precision}{p}
+\key{change to radians mode}{m r}
+\key{change to degrees mode}{m d}
+\key{change to polar mode}{m p}
+change to hours, minutes, and seconds mode
+
+\key{}{m h}
+enter 40 degrees, 11 minutes and 15 seconds
+
+\key{}{40@11'15"}
+\key{sine}{S}
+\key{cosine}{C}
+\key{tangent}{T}
+\key{convert radians}{c r}
+\key{convert degrees}{c d}
+\key{convert polar}{c p}
+\key{convert hms}{c h}
+\key{1 meter}{' 1 m}
+\key{1 centimeter}{' 1 cm}
+\key{1 millimeter}{' 1 mm}
+\key{1 mile}{' 1 mi}
+\key{convert units}{u c}
+convert 26.2 miles to kilometers
+
+\metax{}{' 26.2 SPC mi RET u c km RET}
+90 km per hour to miles per hour
+
+\metax{}{' 90 SPC km/hr RET u c mph RET}
+72 degrees Fahrenheit to Celsius
+
+\metax{}{' 72 SPC degF RET u c degC RET}
+speed of 26.2 miles in 2:03:38
+
+\metax{}{' hms(26.2) mi RET ' 2@3'38" hr RET /}
+pace of 26.2 miles in 2:03:38
+
+\metax{}{' 2@3'38" hr RET ' 26.2 mi RET /}
+same as previous
+
+\metax{}{' hms(26.2) mi RET ' 2@3'38" hr RET / \& u r c h}
+\key{view available units}{u v}
+define unit
+
+\metax{}{' 14 SPC lb RET u d st RET Stone (mass) RET}
+save units permanently to \char`\~/.emacs.d/calc.el
+
+\key{}{u p}
+ 
+{\headingfont timeclock}
+
+\metax{start a project}{M-x timeclock-in}
+stop working on the current project
+
+\metax{}{M-x timeclock-out}
+report time to leave
+
+\metax{}{M-x timeclock-when-to-leave-string}
+\metax{visit timelog file}{M-x timeclock-visit-timelog}
+reread timelog file after crash
+
+\metax{}{M-x timeclock-reread-log}
+reread timelog file after edited
+
+\metax{}{M-x timeclock-reread-log}
+reread timelog file after restarting emacs
+
+\metax{}{M-x timeclock-reread-log}
+ 
+{\headingfont games}
+
+\key{fill a 5-by-5 grid}{M-x 5x5}
+\metax{find balls in a box}{M-x blackbox}
+\metax{psychoanalysis}{M-x doctor}
+\metax{text adventure}{M-x dunnet}
+\metax{try to get 5 in a row}{M-x gomoku}
+\key{multiplication puzzle}{M-x mpuz}
+\key{classic video tennis}{M-x pong}
+\key{eat dots but not yourself or the walls}{M-x snake}
+\metax{stack blocks}{M-x tetris}
+\metax{watch an animation}{M-x type-break}
+\metax{be told when to take breaks}{M-x type-break-mode}
+shut off reminders for breaks
+
+\metax{}{M-- M-x type-break-mode}
+ 
+{\headingfont animation}
+
+birthday wishes to NAME
+
+\metax{}{M-x animate-birthday-present RET <NAME> RET}
+strike the drive platter and flip the desired bit
+
+\metax{}{M-x butterfly}
+scramble current text in another buffer
+
+\metax{}{M-x dissociated-press}
+\key{towers of hanoi}{M-x hanoi}
+\key{the game of life}{M-x life}
+give text in buffer strange capitalization
+
+\metax{}{M-x studlify-buffer}
+give text in region strange capitalization
+
+\metax{}{M-x studlify-region}
+\key{display text tricks}{M-x zone}
+ 
+\bye
+
+% Local variables:
+% compile-command: "pdftex refcard"
+% End:
+

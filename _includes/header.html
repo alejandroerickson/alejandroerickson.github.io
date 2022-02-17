@@ -1,0 +1,34 @@
+
+<div class="wrapper">
+  <center>
+    <a href="{{ site.baseurl }}/index.html"><div class="site-title">
+    {{site.title}} </div></a>
+  </center>
+</div>
+<div class="wrapper site-description">
+<center>  {{site.tagline }} </center>
+</div>
+<div class="wrapper">
+  <div class="trigger site-navigation">
+    <a class="page-link" href="{{ site.baseurl }}/index.html">HOME</a><span class="exclamationMark">/</span>
+
+    {% for sitePage in site.pages %}
+    {% if sitePage.title %}
+
+    <a class="page-link" href="{{sitePage.url | prepend: site.baseurl }}">{{sitePage.title}}</a><span class="exclamationMark">/</span>
+    {% endif %}
+    {% endfor %}
+
+    <a class="page-link" href="{{sitePage.url | prepend: site.baseurl }}/cv/EricksonResume.html">Résumé</a><span class="exclamationMark">/</span>
+  </div>
+
+  <div class="trigger external-navigation">
+    {% for link in site.external_links %}
+
+    <a class="page-link" href="{{link.url}}">{{link.name}}</a><span class="exclamationMark">/</span>
+
+    {% endfor %}
+
+
+</div>
+</div>

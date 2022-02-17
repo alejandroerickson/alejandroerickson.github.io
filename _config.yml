@@ -1,0 +1,53 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Alejandro Erickson
+email: alejandro.erickson@gmail.com
+description: > # this means to ignore newlines until "tagline:"
+  I am inventor, educator, artist, and I develop Decision Analytics software for Copperleaf Technologies.
+  When I am not doing research, coding, or using the 3D printer I am making espresso coffee, taking pictures,
+  making geometric sculptures, building drones, or reading to my son in Spanish.
+tagline: Software Developer at Copperleaf Technologies
+baseurl: "/j" # the subpath of your site, e.g. /blog/
+# url: "http://locahost:4000" # the base hostname & protocol for your site
+url: "http://alejandroerickson.com"
+twitter_username: v3ec
+github_username:  alejandroerickson
+gems: [jekyll-paginate,jekyll-sitemap]
+paginate: 5
+external_links:
+  - url: http://www.flickr.com/photos/alejandroerickson/
+    name: flickr
+  - url: http://geoburst.ca
+    name: geoburst
+  - url: http://www.youtube.com/user/lutherdriggers
+    name: youtube
+  - url: http://www.instructables.com/member/alejandroerickson/
+    name: instructables
+  - url: http://www.facebook.com/alejandro.erickson
+    name: facebook
+  - url: https://www.linkedin.com/in/alejandro-erickson-33777520
+    name: linkedin
+avatar: /images/alejandro-erickson-2017.jpg
+locale: en_GB
+locale_alternate: en_US
+fb_admins: alejandro.erickson
+google_analytics: UA-18725400-1
+
+#YAML Front Matter Defaults
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+
+# Build settings
+markdown: kramdown

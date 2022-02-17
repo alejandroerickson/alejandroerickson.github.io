@@ -1,0 +1,18 @@
+<div class="image-wrapper" >
+  <iframe src="https://www.youtube.com/embed/{{ include.id }}"
+          {% if include.width %}
+          width="{{include.width}}"
+          {% else %}
+          width="640"
+          {% endif %}
+          {% if include.height %}
+          height="{{include.height}}"
+          {% else %}
+          height="360"
+          {% endif %}
+          frameborder="0"
+          allowfullscreen></iframe>
+    {% if include.caption %}
+        <p class="image-caption">{{ include.caption }}</p>
+    {% endif %}
+</div>

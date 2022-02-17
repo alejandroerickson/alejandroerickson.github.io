@@ -1,0 +1,29 @@
+<!--  include image.html -->
+<!-- img="http://farm7.static.flickr.com/6179/6198346259_28e0b792a5_z.jpg" -->
+<!-- OPTIONAL external="true" -->
+<!-- title="Hexastix arrangement all" -->
+<!-- OPTIONAL caption="Hexastix arrangement all by Alejandro Erickson, on Flickr" -->
+<!-- OPTIONAL url="http://www.flickr.com/photos/alejandroerickson/6198346259/" -->
+<!-- OPTIONAL width="500px" -->
+<!-- OPTIONAL height="500px" -->
+<!--  -->
+
+<div class="image-wrapper" >
+    {% if include.url %}
+    <a href="{{ include.url }}" title="{{ include.title }}" target="_blank">
+    {% endif %}
+    <img src="{% if include.external %}{{ include.external }}{% else %}{{ site.baseurl }}{% endif %}/{{ include.img }}" alt="{{ include.title }}" 
+         {% if include.width %}
+         width="{{include.width}}"
+         {% endif %}
+         {% if include.height %}
+         height="{{include.height}}"
+         {% endif %}
+         />
+    {% if include.url %}
+    </a>
+    {% endif %}
+    {% if include.caption %}
+        <p class="image-caption">{{ include.caption }}</p>
+    {% endif %}
+</div>

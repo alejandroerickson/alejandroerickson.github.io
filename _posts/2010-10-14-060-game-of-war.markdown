@@ -1,0 +1,41 @@
+---
+layout: post
+title: 'Game of War: A theists cellular automaton'
+joomla_id: 60
+joomla_url: game-of-war
+date: 2010-10-14 07:48:46.000000000 +01:00
+comments: true
+---
+
+This is an extension of Conway's Game of Life in which there is more than one
+player (colour) and a fifth rule.  To win the game (or be winning) you must have
+more of your own cells on the board than your opponent does.
+
+From Wikipedia, here are the rules to the original Game of Life
+
+1.  Any live cell with fewer than two live neighbours dies, as if caused by
+    under-population.
+2.  Any live cell with more than three live neighbours dies, as if by
+    overcrowding.
+3.  Any live cell with two or three live neighbours lives on to the next
+    generation.
+4.  Any dead cell with exactly three live neighbours becomes a live cell, as if by
+    reproduction.
+
+Now we introduce colours and an extra rule.  Two two cells are friendly if they
+are the same colour:
+
+1.  Any live cell with fewer than two live friendly neighbours dies, as if by
+    loneliness.
+2.  Any live cell with more than three live friendly neighbours dies, as if by
+    overcrowding.
+3.  Any live cell with two or three friendly neighbours lives, unchanged, to the
+    next generation (unless it dies at number 4).
+4.  Any live cell with strictly more enemy than friendly neighbours, dies.
+5.  Any dead cell with exactly three mutually friendly neighbours and no other
+    live neighbours comes to life.
+
+As you can see, when only the cells of one player are involved, these are the
+rules of the Game of Life.  When there are enemies, majority wins!
+
+{swf;http://alejandroerickson.com/joomla/images/swf/game_of_life.swf}
