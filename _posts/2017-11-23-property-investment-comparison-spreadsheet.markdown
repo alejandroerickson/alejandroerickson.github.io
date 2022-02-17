@@ -11,7 +11,7 @@ investment property. I am not an expert in financial math and I do not guarantee
 any sanity in the calculations.
 
 {% include image.html
-    img="/images/property-investment-spreadsheet.png"
+    img="images/property-investment-spreadsheet.png"
     title="Property Investment Comparison Spreadsheet"
     caption="Property Investment Comparison Spreadsheet."
     %}

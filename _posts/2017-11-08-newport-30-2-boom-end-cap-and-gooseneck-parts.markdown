@@ -17,7 +17,7 @@ seems to be typical for the "top shops" like this one.
 Hopefully I'll be testing it all out on Easter weekend!
 
 {% include image.html
-    img="/images/pro-tech-gooseneck.jpg"
+    img="images/pro-tech-gooseneck.jpg"
     title="Gooseneck Slider Height"
     caption="Gooseneck slider height 4 1/2in."
     %}
@@ -40,31 +40,31 @@ Newport 30-2 owners, I have documented my measurements of the gooseneck assembly
 here.
 
 {% include image.html
-    img="/images/20171023-213520-20171023_213520.jpg"
+    img="images/20171023-213520-20171023_213520.jpg"
     title="Gooseneck Slider Height"
     caption="Gooseneck slider height 4 1/2in."
     %}
 
 {% include image.html
-    img="/images/20171023-213512-20171023_213512.jpg"
+    img="images/20171023-213512-20171023_213512.jpg"
     title="Gooseneck Slider Depth"
     caption="Gooseneck Slider Depth approx 2in."
     %}
 
 {% include image.html
-    img="/images/20171023-213530-20171023_213530.jpg"
+    img="images/20171023-213530-20171023_213530.jpg"
     title="Gooseneck Slider Toggle Height"
     caption="Gooseneck slider maximum toggle height approx 1 1/4in."
     %}
 
 {% include image.html
-    img="/images/20171023-213413-20171023_213413.jpg"
+    img="images/20171023-213413-20171023_213413.jpg"
     title="Slider Track Width"
     caption="Slider track width 1 7/16in or 1 1/2in."
     %}
 
 {% include image.html
-    img="/images/20171023-213441-20171023_213441.jpg"
+    img="images/20171023-213441-20171023_213441.jpg"
     title="Slider Track Depth/Thickness"
     caption="Slider Track Depth/Thickness 1/4in."
     %}
@@ -76,19 +76,19 @@ There is a sheave for the topping lift that comes into the boom on the bottom at
 Related is the spar section, of which I took a few measurements and pictures as well.
 
 {% include image.html
-    img="/images/20171105-184313-DSC05331.jpg"
+    img="images/20171105-184313-DSC05331.jpg"
     title="Spar Section Outside Height"
     caption="Spar section outside height 4 7/16in."
     %}
 
 {% include image.html
-    img="/images/20171105-184424-DSC05336.jpg"
+    img="images/20171105-184424-DSC05336.jpg"
     title="Spar Section Outside Width"
     caption="Spar section outside width 3 1/8in."
     %}
 
 {% include image.html
-    img="/images/20171105-184512-DSC05338.jpg"
+    img="images/20171105-184512-DSC05338.jpg"
     title="Spar Section Inside Width"
     caption="Spar section inside width 2 7/8in."
     %}
@@ -101,7 +101,7 @@ In addition to photographing direct measurements, I traced the spar section and 
   * The screw holes appear to be 1/8in and 3/16in.
 
 {% include image.html
-    img="/images/20171108-093921-DSC05357.jpg"
+    img="images/20171108-093921-DSC05357.jpg"
     title="Spar Section Sketch"
     caption="Spar Section Sketch."
     %}
@@ -119,26 +119,26 @@ through a gap in the cheek of the boom.
 
 
 {% include image.html
-    img="/images/20171108-093828-DSC05355.jpg"
+    img="images/20171108-093828-DSC05355.jpg"
     title="End Cap Inside"
     caption="End cap inside."
     %}
 
 {% include image.html
-    img="/images/20171108-093748-DSC05352.jpg"
+    img="images/20171108-093748-DSC05352.jpg"
     title="End Cap Profile"
     caption="End cap profile."
     %}
     
     
 {% include image.html
-    img="/images/20171108-093732-DSC05350.jpg"
+    img="images/20171108-093732-DSC05350.jpg"
     title="End Cap Front"
     caption="End cap front."
     %}
 
 {% include image.html
-    img="/images/20171108-093809-DSC05354.jpg"
+    img="images/20171108-093809-DSC05354.jpg"
     title="End Cap Top"
     caption="End cap top."
     %}
@@ -153,7 +153,7 @@ I also traced the end cap fitting onto the metric graph paper, and sketched the 
 
 
 {% include image.html
-    img="/images/20171108-093908-DSC05356.jpg"
+    img="images/20171108-093908-DSC05356.jpg"
     title="End Cap Fitting Sketch"
     caption="End cap fitting sketch."
     %}
@@ -180,7 +180,7 @@ It's pretty clear to me that I won't be getting any OEM parts for this, so we'll
 have to see what's next.
 
 {% include image.html
-    img="/images/cruisingmast.gif"
+    img="images/cruisingmast.gif"
     title="LeFiell Spar Sections"
     caption="LeFiell Spar Sections"
     %}

@@ -8,7 +8,7 @@ date: 2018-08-20T22:13:49-07:00
 My main sheet and vang used to connect to a simple eye near the base of the mast until one day the threads gave way and it popped out.
 
 {% include image.html
-    img="/images/broken-main-sheet-vang-eye.jpg"
+    img="images/broken-main-sheet-vang-eye.jpg"
     title="Broken Main Sheet and Vang Eye"
     caption="Broken Main Sheet and Vang Eye"
     %}

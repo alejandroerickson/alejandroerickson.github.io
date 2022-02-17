@@ -105,7 +105,7 @@ Assumptions:
 **[Play around with the spreadsheet here.](https://docs.google.com/spreadsheets/d/1FItrYVojJt-z-MV1MikXilF5lS-Ij6ELvpcshyUX33k/edit?usp=sharing)**
  
 {% include image.html
-    img="/images/resp.png"
+    img="images/resp.png"
     title="RESP Returns by Investment Method."
     caption="RESP Returns by Investment Method."
     %}

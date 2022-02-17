@@ -24,7 +24,7 @@ type, where you can also view the difference between your portfolio allocation
 and your target allocation.
 
 {% include image.html
-    img="/images/portfolio-planning-balances.png"
+    img="images/portfolio-planning-balances.png"
     title="Account Balances by Asset Type."
     caption="Account Balances by Asset Type."
     %}
@@ -32,7 +32,7 @@ and your target allocation.
 Below the account summary there is also a visual representation of your target and actual allocations.
 
 {% include image.html
-    img="/images/portfolio-planning-target-and-allocation.png"
+    img="images/portfolio-planning-target-and-allocation.png"
     title="Porfolio Target and Actual Allocation."
     caption="Porfolio Target and Actual Allocation."
     %}
@@ -40,7 +40,7 @@ Below the account summary there is also a visual representation of your target a
 Actual holdings are specified on the holdings page by giving a ticker symbol and number of shares owned.
 
 {% include image.html
-    img="/images/portfolio-planning-holdings.png"
+    img="images/portfolio-planning-holdings.png"
     title="Portfolio Share Holdings."
     caption="Portfolio Share Holdings."
     %}

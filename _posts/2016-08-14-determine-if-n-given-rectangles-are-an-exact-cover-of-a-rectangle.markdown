@@ -60,7 +60,7 @@ rectangles intersect. To see why, look at the input below.
 
 
 {% include image.html
-img="/images/areaprobleminput.png"
+img="images/areaprobleminput.png"
 title="Area problem input"
 caption="Area problem input"
 width="428px"
@@ -99,7 +99,7 @@ interiors intersect. The explanation is a bit dense, but hopefully you'll come
 to the same conclusions by making some drawings.
 
 {% include image.html
-img="/images/algorithmbigrect.png"
+img="images/algorithmbigrect.png"
 title="isBigRect uses the interfaces of vertical segments"
 caption="isBigRect uses the interfaces of vertical segments"
 width="600px"

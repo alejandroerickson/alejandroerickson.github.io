@@ -8,7 +8,7 @@ date: 2015-07-13T00:00:00+01:00
 ---
 
 {% include image.html 
-img="/images/tatamiWord.png"
+img="images/tatamiWord.png"
 title="Tatami Banner"
 width="550px"
 %}
