@@ -40,3 +40,5 @@ defaults:
 
 # Build settings
 markdown: kramdown
+
+theme: jekyll-theme-minimal
