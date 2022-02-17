@@ -19,8 +19,7 @@ robust, by replacing them both with a mast-base organizer plate.  I envision som
 
 
 {% include image.html
-    external="http://www.blumhorst.com/catalina27/images"
-    img="mast-hinge2.jpg"
+    img="images/mast-hinge2.jpg"
     title="Halyard organizer plate (hinged)"
     caption="Halyard organizer plate (hinged)"
     %}
