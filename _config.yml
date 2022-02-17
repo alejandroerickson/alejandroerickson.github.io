@@ -20,16 +20,6 @@ github_username:  alejandroerickson
 plugins: [jekyll-paginate,jekyll-sitemap]
 paginate: 5
 external_links:
-  - url: http://www.flickr.com/photos/alejandroerickson/
-    name: flickr
-  - url: http://geoburst.ca
-    name: geoburst
-  - url: http://www.youtube.com/user/lutherdriggers
-    name: youtube
-  - url: http://www.instructables.com/member/alejandroerickson/
-    name: instructables
-  - url: http://www.facebook.com/alejandro.erickson
-    name: facebook
   - url: https://www.linkedin.com/in/alejandro-erickson-33777520
     name: linkedin
 avatar: /images/alejandro-erickson-2017.jpg
