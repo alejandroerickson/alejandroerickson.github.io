@@ -9,8 +9,8 @@ From around 2010 to 2013 I ran a small volunteer organization called Geoburst. G
 
 {% include image.html
     img="images/geoburst-banner.png"
-    title="Geoburst's Banner"
-    caption="Geoburst's Banner"
+    title="Geoburst.ca's Banner"
+    caption="Geoburst.ca's Banner"
     %}
 
 # About Geoburst
@@ -36,6 +36,7 @@ We want every school in British Columbia to be equipped with a clearly labelled 
 ### Math Catcher
 
 Mathematics through aboriginal story telling
+
 We work closely with Math Catcher through consulting and the integration of our interactive shows into their program. This partnership benefits our programs mutually, and has helped GeoBurst develop its mission and activities by providing a raison-d'être and an audience at an early stage in our development.
 
 GeoBurst is proud to work closely with award winning math professor, Dr. Veselin Jungic, and First Nations role models to bring a much needed enhancement to mathematics education for remotely located and urban Aboriginal students. GeoBurst is an integral part of their school visiting program, and Math Catcher's influence and contributions continue to be indispensable to the formation of our values, and the operation of our program.

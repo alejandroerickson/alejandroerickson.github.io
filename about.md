@@ -8,20 +8,16 @@ tagline: Research and Software Development at Copperleaf Technologies
 {% include image.html
     img="images/alejandro-erickson-sailing-2017.jpg"
     title="Alejandro Erickson"
-    caption="Software Developer and R & D at Copperleaf Technologies"
+    caption="Senior Software Developer and R & D at Copperleaf Technologies"
     %}
 
 **How can an organization prioritize millions of small to large maintenance
  expenditures over a 50-year period?**
 
-I am a Software Developer
+I am a Senior Software Developer
 at [Copperleaf Technologies](http://www.copperleaf.com/) in Vancouver, Canada,
-for Copperleaf's C55 product. I work primarily with C# in .NET and Oracle, as
-well
-as
-[Javascript](https://www.javascript.com/),
-[Angularjs](https://angularjs.org/), [Kendo](http://www.telerik.com/kendo-ui),
-ASP, and Less. C55 is Copperleaf's core enterprise product: Premium
+for Copperleaf's C55 product. I work primarily with C#, Oracle, and Python. 
+C55 is Copperleaf's core enterprise product: Premium
 software that empowers large-scale organizations with **Decision Analytics for
 Asset Investment Planning and Management**.
 
@@ -32,18 +28,6 @@ prioritize millions of small to large maintenance expenditures over a 50-year
 period? and, **How should an organization quantify and mitigate risk?** Such
 questions must be answered, and the solutions rolled into Copperleaf's software
 products.
-
-### Call to Action ###
-
-**How are you using mathematics in your software? Tell me about your ambitions.**
-
-If your R&D group is doing something exciting, contact me
-at [alejandro.erickson@gmail.com](mailto:alejandro.erickson@gmail.com).
-
-[Click here for my résumé]({{site.baseurl}}/cv/EricksonResume.pdf) and scroll
-down for my publications.
-
-Take a break and watch a couple of videos that I made.
 
 <iframe width="320" height="180" src="https://www.youtube.com/embed/2WtyMP1n5Js" frameborder="0" allowfullscreen></iframe> 
 <iframe width="320" height="180" src="https://www.youtube.com/embed/Td-OMIzv3Ns" frameborder="0" allowfullscreen></iframe>
