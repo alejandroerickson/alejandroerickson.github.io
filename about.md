@@ -14,20 +14,17 @@ tagline: Research and Software Development at Copperleaf Technologies
 **How can an organization prioritize millions of small to large maintenance
  expenditures over a 50-year period?**
 
-I am a Senior Software Developer
+
+I am a Senior Software Developer and Researcher
 at [Copperleaf Technologies](http://www.copperleaf.com/) in Vancouver, Canada,
 for Copperleaf's C55 product. I work primarily with C#, Oracle, and Python. 
 C55 is Copperleaf's core enterprise product: Premium
 software that empowers large-scale organizations with **Decision Analytics for
 Asset Investment Planning and Management**.
 
-I am also involved with Research and Development on Decision Analytics. We
-provide solutions that are critical to the effective and safe operation of large
-infrastructure and utility companies. For example, How can an organization
-prioritize millions of small to large maintenance expenditures over a 50-year
-period? and, **How should an organization quantify and mitigate risk?** Such
-questions must be answered, and the solutions rolled into Copperleaf's software
-products.
+Copperleaf provides solutions that are critical to the effective and safe operation of large infrastructure and utility companies. For example: How can an organization prioritize millions of small to large maintenance expenditures over a 50-year period? How should an organization quantify and mitigate risk? I develop innovative solutions to such problems with team of developers, designers, and product managers, and then transform those solutions into software products.
+
+I also make stuff, occasionally.
 
 <iframe width="320" height="180" src="https://www.youtube.com/embed/2WtyMP1n5Js" frameborder="0" allowfullscreen></iframe> 
 <iframe width="320" height="180" src="https://www.youtube.com/embed/Td-OMIzv3Ns" frameborder="0" allowfullscreen></iframe>
